@@ -10,6 +10,7 @@ function Cube(scene, n, partSize, offset) {
 
 	this.createCubix(this.scene, this.n, this.partSize, this.cube, offset);
 	this.centerTheCubiclsAroundCube(n, partSize, offset);
+	this.rotationUtils = new RotationUtils();
 
 	// this.colorTheFaces(null, this.cubicls, this.scene);
 }
@@ -92,113 +93,69 @@ Cube.prototype.createCubix = function(scene, n, partSize, parent, offset) {
 	}
 }
 
-Cube.prototype.rotateLayer = function(direction, u, v) {
-	this.cube.animations = [];
-	var animation = new BABYLON.Animation("cubeAnimation", "rotation.x", 300,
-			BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-			BABYLON.Animation.ANIMATIONLOOPMODE_RELATIVE);
+Cube.prototype.rotateLayer = function(direction, face) {
 
-	if (direction == Direction.UP) {
+	// TODO reweork asolen
 
-		// Animation keys
-		var keys = [];
-		// At the animation key 0, the value of
-		// scaling is "1"
-		keys.push({
-			frame : 0,
-			value : this.cube.rotation.x
-		});
-		// At the animation key 20, the value of scaling is "0.2"
-		keys.push({
-			frame : 200,
-			value : this.cube.rotation.x + Math.PI / 4
-		});
-		// At the animation key 100, the value of scaling is "1"
-		keys.push({
-			frame : 500,
-			value : this.cube.rotation.x + Math.PI / 2
-		});
-		animation.setKeys(keys);
-		this.cube.animations.push(animation);
-		this.scene.beginAnimation(this.cube, 0, 500, false);
+	var rot;
+
+	if (face == Faces.FRONT || face == Faces.BACK) {
+		rot = this.cube.rotation.x;
+
+		if (direction == Direction.UP) {
+
+			rot += Math.PI / 2;
+		}
+
+		if (direction == Direction.DOWN) {
+
+			rot -= Math.PI / 2;
+
+		}
+		this.cube.rotation.x = rot;
 	}
+	
+	if (face == Faces.LEFT || face == Faces.RIGHT) {
+		rot = this.cube.rotation.z;
 
-	if (direction == Direction.DOWN) {
-		// Animation keys
-		var keys = [];
-		// At the animation key 0, the value of
-		// scaling is "1"
-		keys.push({
-			frame : 0,
-			value : -this.cube.rotation.x
-		});
-		// At the animation key 20, the value of scaling is "0.2"
-		keys.push({
-			frame : 200,
-			value : (this.cube.rotation.x - Math.PI / 4)
-		});
-		// At the animation key 100, the value of scaling is "1"
-		keys.push({
-			frame : 500,
-			value : (this.cube.rotation.x - Math.PI / 2)
-		});
-		animation.setKeys(keys);
-		this.cube.animations.push(animation);
-		this.scene.beginAnimation(this.cube, 0, 500, false);
+		if (direction == Direction.UP) {
+
+			rot += Math.PI / 2;
+		}
+
+		if (direction == Direction.DOWN) {
+
+			rot -= Math.PI / 2;
+
+		}
+		this.cube.rotation.z = rot;
 	}
+	
+	if (face == Faces.LEFT || face == Faces.RIGHT) {
+		rot = this.cube.rotation.z;
 
+		if (direction == Direction.UP) {
+
+			rot += Math.PI / 2;
+		}
+
+		if (direction == Direction.DOWN) {
+
+			rot -= Math.PI / 2;
+
+		}
+		this.cube.rotation.z = rot;
+	}
+	
 	if (direction == Direction.LEFT) {
-		var animation = new BABYLON.Animation("cubeAnimation", "rotation.y",
-				300, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-				BABYLON.Animation.ANIMATIONLOOPMODE_RELATIVE);
-		// Animation keys
-		var keys = [];
-		// At the animation key 0, the value of
-		// scaling is "1"
-		keys.push({
-			frame : 0,
-			value : this.cube.rotation.y
-		});
-		// At the animation key 20, the value of scaling is "0.2"
-		keys.push({
-			frame : 200,
-			value : (this.cube.rotation.y + Math.PI / 4)
-		});
-		// At the animation key 100, the value of scaling is "1"
-		keys.push({
-			frame : 500,
-			value : (this.cube.rotation.y + Math.PI / 2)
-		});
-		animation.setKeys(keys);
-		this.cube.animations.push(animation);
-		this.scene.beginAnimation(this.cube, 0, 500, false);
+
+		this.cube.rotation.y += Math.PI / 2;
+
 	}
 
 	if (direction == Direction.RIGHT) {
-		var animation = new BABYLON.Animation("cubeAnimation", "rotation.y",
-				300, BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-				BABYLON.Animation.ANIMATIONLOOPMODE_RELATIVE);
-		// Animation keys
-		var keys = [];
-		// At the animation key 0, the value of
-		// scaling is "1"
-		keys.push({
-			frame : 0,
-			value : this.cube.rotation.y
-		});
-		// At the animation key 20, the value of scaling is "0.2"
-		keys.push({
-			frame : 200,
-			value : this.cube.rotation.y - Math.PI / 4
-		});
-		// At the animation key 100, the value of scaling is "1"
-		keys.push({
-			frame : 500,
-			value : this.cube.rotation.y - Math.PI / 2
-		});
-		animation.setKeys(keys);
-		this.cube.animations.push(animation);
-		this.scene.beginAnimation(this.cube, 0, 500, false);
+
+		this.cube.rotation.y -= Math.PI / 2;
 	}
 
 }
