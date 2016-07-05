@@ -35,11 +35,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
 		if (pickInfo.hit) {
 			isCubePressed = true;
-
+			var bp = 0;
 			var pickedPoint = pickInfo.pickedPoint;
 			face = rotationUtils.getFace(pickedPoint);
-			v1 = new BABYLON.Vector2(evt.x, evt.y);
-			v1 = pickedPoint;
+
 			p1.x = evt.x;
 			p1.y = evt.y;
 
@@ -51,34 +50,26 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function onPointerUp() {
 		isCubePressed = false;
-		canRotate = false;
+
 		camera.attachControl(canvas, true);
 		var bp = 0;
 	}
 	// TODO
 	function onPointerMove(evt) {
-
+		var bp = 0;
 		if (isCubePressed) {
-			if (canRotate) {
-				canRotate = false;
-				var p2 = {
-					x : evt.x,
-					y : evt.y
-				}
-				var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
-				v2 = new BABYLON.Vector2(evt.x, evt.y);
-				v2=pickInfo.pickedPoint;
-				var v3 = v2.subtract(v1);
-				var bp = 0;
-				setTimeout(function() {
-					var direction = getDirection(p1, p2);
-
-					cube.rotateLayer(direction, 1, 1);
-					//
-
-				}, 1000)
-
+			isCubePressed = false;
+			var p2 = {
+				x : evt.x,
+				y : evt.y
 			}
+			setTimeout(function() {
+
+				var direction = getDirection(p1, p2);
+				cube.rotateLayer(direction, 1, 1);
+			}, 10);
+			//
+
 		}
 
 	}
