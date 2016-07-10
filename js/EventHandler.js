@@ -39,6 +39,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			var pickedPoint = pickInfo.pickedPoint;
 			face = rotationUtils.getFace(pickedPoint);
 
+			var bp = 0;
 			p1.x = evt.x;
 			p1.y = evt.y;
 
@@ -66,7 +67,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			setTimeout(function() {
 
 				var direction = getDirection(p1, p2);
-				cube.rotateLayer(direction, 1, 1);
+
+				
+				cube.rotateLayer(direction, face, 1);
 			}, 10);
 			//
 

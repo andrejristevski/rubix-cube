@@ -131,8 +131,8 @@ Cube.prototype.rotateLayer = function(direction, face) {
 		this.cube.rotation.z = rot;
 	}
 	
-	if (face == Faces.LEFT || face == Faces.RIGHT) {
-		rot = this.cube.rotation.z;
+	if (face == Faces.TOP || face == Faces.BOTTOM) {
+		rot = this.cube.rotation.x;
 
 		if (direction == Direction.UP) {
 
@@ -144,18 +144,18 @@ Cube.prototype.rotateLayer = function(direction, face) {
 			rot -= Math.PI / 2;
 
 		}
-		this.cube.rotation.z = rot;
+		this.cube.rotation.x = rot;
 	}
-	
-	if (direction == Direction.LEFT) {
-
-		this.cube.rotation.y += Math.PI / 2;
-
-	}
-
-	if (direction == Direction.RIGHT) {
-
-		this.cube.rotation.y -= Math.PI / 2;
-	}
+	//da se dodaj za celosno da raboti 
+//	if (direction == Direction.LEFT) {
+//
+//		this.cube.rotation.y += Math.PI / 2;
+//
+//	}
+//
+//	if (direction == Direction.RIGHT) {
+//
+//		this.cube.rotation.y -= Math.PI / 2;
+//	}
 
 }
