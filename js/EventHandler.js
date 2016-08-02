@@ -9,22 +9,25 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var face = Faces.FRONT;
 	var v1 = new BABYLON.Vector2(0, 0);
 
+	var sp = null;
+	var ep = null;
+
 	function getDirection(p1, p2) {
 
 		if (p1.x < p2.x) {
-			console.log('desno');
+			// console.log('desno');
 			return Direction.RIGHT;
 		}
 		if (p1.x > p2.x) {
-			console.log('levo');
+			// console.log('levo');
 			return Direction.LEFT;
 		}
 		if (p1.y < p2.y) {
-			console.log('dolu');
+			// console.log('dolu');
 			return Direction.DOWN;
 		}
 		if (p1.y > p2.y) {
-			console.log('gore');
+			// console.log('gore');
 			return Direction.UP;
 		}
 
@@ -37,6 +40,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			isCubePressed = true;
 			var bp = 0;
 			var pickedPoint = pickInfo.pickedPoint;
+			sp = new BABYLON.Vector3(pickedPoint.x, pickedPoint.y,
+					pickedPoint.z);
 			face = rotationUtils.getFace(pickedPoint);
 
 			var bp = 0;
@@ -64,6 +69,16 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				x : evt.x,
 				y : evt.y
 			}
+			var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
+			var ep = pickInfo.pickedPoint;
+			console.log("  x sp " + sp.x + " " + sp.y + " " + sp.z);
+			console.log("  x ep " + ep.x + " " + ep.y + " " + ep.z);
+			var bp = 0;
+
+			var razlika = ep.subtract(sp);
+			console.log("  razlika ep " + razlika.x + " " + razlika.y + " "
+					+ razlika.z);
+
 			setTimeout(function() {
 
 				var direction = getDirection(p1, p2);
