@@ -1,3 +1,9 @@
+/*example of quaternions
+ * 	var rotationQuaternion = BABYLON.Quaternion.RotationAxis(
+ new BABYLON.Vector3(1, 0, 0), Math.PI /2);
+ var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
+ cubeMesh.rotationQuaternion = end;
+ */
 function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	var cubeMesh = cube.getControl();
@@ -34,11 +40,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	}
 
 	function onPointerDown(evt) {
-		
-		
-		cube.rotateQuater();
-		
-		
+
 		var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
 		if (pickInfo.hit) {
 			isCubePressed = true;
@@ -47,6 +49,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			sp = new BABYLON.Vector3(pickedPoint.x, pickedPoint.y,
 					pickedPoint.z);
 			face = rotationUtils.getFace(pickedPoint);
+
+			var rotationQuaternion = BABYLON.Quaternion.RotationAxis(
+					BABYLON.Axis.X, Math.PI / 4);
+			var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
+			cubeMesh.rotationQuaternion = rotationQuaternion;
 
 			var bp = 0;
 			p1.x = evt.x;
@@ -73,13 +80,20 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				x : evt.x,
 				y : evt.y
 			}
+
 			var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
+
 			var ep = pickInfo.pickedPoint;
+
 			console.log("  x sp " + sp.x + " " + sp.y + " " + sp.z);
 			console.log("  x ep " + ep.x + " " + ep.y + " " + ep.z);
 			var bp = 0;
 
 			var razlika = ep.subtract(sp);
+
+			var minDir = rotationUtils.getAxisDirection(razlika);
+			console.log(minDir);
+
 			console.log("  razlika ep " + razlika.x + " " + razlika.y + " "
 					+ razlika.z);
 
