@@ -93,6 +93,14 @@ Cube.prototype.createCubix = function(scene, n, partSize, parent, offset) {
 	}
 }
 
+Cube.prototype.rotateQuater = function(vec) {
+
+	var q = new BABYLON.Quaternion(0, 0, 0.5, 45);
+
+	//this.cube.rotationQuaternion = q;
+
+}
+
 Cube.prototype.rotateLayer = function(direction, face) {
 
 	// TODO reweork asolen
@@ -114,7 +122,7 @@ Cube.prototype.rotateLayer = function(direction, face) {
 		}
 		this.cube.rotation.x = rot;
 	}
-	
+
 	if (face == Faces.LEFT || face == Faces.RIGHT) {
 		rot = this.cube.rotation.z;
 
@@ -130,7 +138,7 @@ Cube.prototype.rotateLayer = function(direction, face) {
 		}
 		this.cube.rotation.z = rot;
 	}
-	
+
 	if (face == Faces.TOP || face == Faces.BOTTOM) {
 		rot = this.cube.rotation.x;
 
@@ -146,16 +154,16 @@ Cube.prototype.rotateLayer = function(direction, face) {
 		}
 		this.cube.rotation.x = rot;
 	}
-	//da se dodaj za celosno da raboti 
-//	if (direction == Direction.LEFT) {
-//
-//		this.cube.rotation.y += Math.PI / 2;
-//
-//	}
-//
-//	if (direction == Direction.RIGHT) {
-//
-//		this.cube.rotation.y -= Math.PI / 2;
-//	}
+	// da se dodaj za celosno da raboti
+	// if (direction == Direction.LEFT) {
+	//
+	// this.cube.rotation.y += Math.PI / 2;
+	//
+	// }
+	//
+	// if (direction == Direction.RIGHT) {
+	//
+	// this.cube.rotation.y -= Math.PI / 2;
+	// }
 
 }

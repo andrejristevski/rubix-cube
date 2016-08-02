@@ -34,7 +34,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	}
 
 	function onPointerDown(evt) {
-
+		
+		
+		cube.rotateQuater();
+		
+		
 		var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
 		if (pickInfo.hit) {
 			isCubePressed = true;
@@ -81,9 +85,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 			setTimeout(function() {
 
-				var direction = getDirection(p1, p2);
+				// var direction = getDirection(p1, p2);
 
-				cube.rotateLayer(direction, face, 1);
+				// cube.rotateLayer(direction, face, 1);
 			}, 10);
 			//
 
