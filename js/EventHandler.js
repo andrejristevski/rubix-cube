@@ -68,7 +68,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 				var direction = getDirection(p1, p2);
 
-				
 				cube.rotateLayer(direction, face, 1);
 			}, 10);
 			//
