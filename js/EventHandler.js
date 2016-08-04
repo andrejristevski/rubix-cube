@@ -14,9 +14,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var p1 = {};
 	var face = Faces.FRONT;
 	var v1 = new BABYLON.Vector2(0, 0);
+	var zq = null;
 
 	var startQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
 	cubeMesh.rotationQuaternion = startQuaternion;
+	console.log("start " + startQuaternion.toEulerAngles());
 
 	var sp = null;
 	var ep = null;
@@ -84,7 +86,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			var ep = pickInfo.pickedPoint;
 
 			// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
-			// console.log(" x ep " + ep.x + " " + ep.y + " " + ep.z);
 			var bp = 0;
 
 			var razlika = ep.subtract(sp);
@@ -94,12 +95,20 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 			var rotationQuaternion = BABYLON.Quaternion.RotationAxis(minDir,
 					Math.PI / 2);
+
+			// console.log(rotationQuaternion);
+			console.log("additional rotation "
+					+ rotationQuaternion.toEulerAngles());
+			// toEulerAngles
+			console.log("current orientation "
+					+ cubeMesh.rotationQuaternion.toEulerAngles());
+			zq = cubeMesh.rotationQuaternion;
 			var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
 			cubeMesh.rotationQuaternion = end;
-			// console.log(end);
-			
+			console.log("end orientation" + end.toEulerAngles());
+
 			// console.log(" razlika ep " + razlika.x + " " + razlika.y + " "
-			//					+ razlika.z);
+			// + razlika.z);
 
 			setTimeout(function() {
 
@@ -129,6 +138,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			break;
 		case 'l': // 'E'
 			cube.rotateLayer();
+			break;
+		case 90:
+			cubeMesh.rotationQuaternion = zq;
 			break;
 		}
 	}
