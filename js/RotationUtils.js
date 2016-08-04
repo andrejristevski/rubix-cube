@@ -57,13 +57,29 @@ function RotationUtils() {
 
 		var max = Math.min(px, py, pz);
 		if (max == px) {
-			return BABYLON.Axis.X;
+			if (Math.max(py, pz) == py) {
+				return BABYLON.Axis.Z;
+			} else {
+				return BABYLON.Axis.Y;
+			}
+			// return BABYLON.Axis.X;
 		}
 		if (max == py) {
-			return BABYLON.Axis.Y;
+			if (Math.max(px, pz) == px) {
+				return BABYLON.Axis.Z;
+			} else {
+				return BABYLON.Axis.X;
+			}
+
+			// return BABYLON.Axis.Y;
 		}
 		if (max == pz) {
-			return BABYLON.Axis.Z;
+			if (Math.max(py, px) == py) {
+				return BABYLON.Axis.X;
+			} else {
+				return BABYLON.Axis.Y;
+			}
+
 		}
 
 	}

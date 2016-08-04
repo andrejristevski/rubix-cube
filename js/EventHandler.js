@@ -15,6 +15,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var face = Faces.FRONT;
 	var v1 = new BABYLON.Vector2(0, 0);
 
+	var startQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
+	cubeMesh.rotationQuaternion = startQuaternion;
+
 	var sp = null;
 	var ep = null;
 
@@ -50,11 +53,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 					pickedPoint.z);
 			face = rotationUtils.getFace(pickedPoint);
 
-			var rotationQuaternion = BABYLON.Quaternion.RotationAxis(
-					BABYLON.Axis.X, Math.PI / 4);
-			var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
-			cubeMesh.rotationQuaternion = rotationQuaternion;
-
 			var bp = 0;
 			p1.x = evt.x;
 			p1.y = evt.y;
@@ -85,8 +83,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 			var ep = pickInfo.pickedPoint;
 
-			console.log("  x sp " + sp.x + " " + sp.y + " " + sp.z);
-			console.log("  x ep " + ep.x + " " + ep.y + " " + ep.z);
+			// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
+			// console.log(" x ep " + ep.x + " " + ep.y + " " + ep.z);
 			var bp = 0;
 
 			var razlika = ep.subtract(sp);
@@ -94,8 +92,14 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			var minDir = rotationUtils.getAxisDirection(razlika);
 			console.log(minDir);
 
-			console.log("  razlika ep " + razlika.x + " " + razlika.y + " "
-					+ razlika.z);
+			var rotationQuaternion = BABYLON.Quaternion.RotationAxis(minDir,
+					Math.PI / 2);
+			var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
+			cubeMesh.rotationQuaternion = end;
+			// console.log(end);
+			
+			// console.log(" razlika ep " + razlika.x + " " + razlika.y + " "
+			//					+ razlika.z);
 
 			setTimeout(function() {
 
