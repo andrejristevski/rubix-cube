@@ -42,9 +42,10 @@ function RotationUtils() {
 		}
 
 	}
-
+	// this returns the axis that we need to rotate for 90 degrees
 	function getAxisDirection(point) {
 
+		console.log("razlika  " + point);
 		var xAxes = new BABYLON.Vector3(1, 0, 0);
 		var yAxes = new BABYLON.Vector3(0, 1, 0);
 		var zAxes = new BABYLON.Vector3(0, 0, 1);
@@ -58,30 +59,58 @@ function RotationUtils() {
 		var max = Math.min(px, py, pz);
 		if (max == px) {
 			if (Math.max(py, pz) == py) {
-				return BABYLON.Axis.Z;
+				if (point.y < 0) {
+					return BABYLON.Axis.Z.negate();
+				} else {
+					return BABYLON.Axis.Z;
+				}
+				// return BABYLON.Axis.Z;
 			} else {
-				return BABYLON.Axis.Y;
+				if (point.z < 0) {
+					return BABYLON.Axis.Y.negate();
+				} else {
+					return BABYLON.Axis.Y;
+				}
+				// return BABYLON.Axis.Y;
 			}
 			// return BABYLON.Axis.X;
 		}
 		if (max == py) {
 			if (Math.max(px, pz) == px) {
-				return BABYLON.Axis.Z;
+				if (point.x < 0) {
+					return BABYLON.Axis.Z.negate();
+				} else {
+					return BABYLON.Axis.Z;
+				}
+				// return BABYLON.Axis.Z;
 			} else {
-				return BABYLON.Axis.X;
+				if (point.z < 0) {
+					return BABYLON.Axis.X.negate();
+				} else {
+					return BABYLON.Axis.X;
+				}
+				// return BABYLON.Axis.X;
 			}
 
 			// return BABYLON.Axis.Y;
 		}
 		if (max == pz) {
 			if (Math.max(py, px) == py) {
-				return BABYLON.Axis.X;
+				if (point.y < 0) {
+					return BABYLON.Axis.X.negate();
+				} else {
+					return BABYLON.Axis.X;
+				}
+				// return BABYLON.Axis.X;
 			} else {
-				return BABYLON.Axis.Y;
+				if (point.x < 0) {
+					return BABYLON.Axis.Y.negate();
+				} else {
+					return BABYLON.Axis.Y;
+				}
+				// return BABYLON.Axis.Y;
 			}
-
 		}
-
 	}
 
 	return {
