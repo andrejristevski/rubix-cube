@@ -21,6 +21,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	rotg.y = 0;
 	rotg.z = 0;
 
+	var mouseMoveControl = true;
+
 	var startQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
 	cubeMesh.rotationQuaternion = startQuaternion;
 	console.log("start " + startQuaternion.toEulerAngles());
@@ -72,51 +74,60 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function onPointerUp() {
 		isCubePressed = false;
-
+		mouseMoveControl = true;
 		camera.attachControl(canvas, true);
 		var bp = 0;
 	}
 	// TODO
 	function onPointerMove(evt) {
 		var bp = 0;
-		if (isCubePressed) {
-			isCubePressed = false;
-			var p2 = {
-				x : evt.x,
-				y : evt.y
-			}
+		if (mouseMoveControl && isCubePressed) {
+			mouseMoveControl = false;
+			setTimeout(function() {
 
-			var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
+				if (isCubePressed) {
+					isCubePressed = false;
+					var p2 = {
+						x : evt.x,
+						y : evt.y
+					}
 
-			var ep = pickInfo.pickedPoint;
+					var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
 
-			// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
-			var bp = 0;
+					var ep = pickInfo.pickedPoint;
 
-			var razlika = ep.subtract(sp);
+					// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
+					var bp = 0;
 
-			var minDir = rotationUtils.getAxisDirection(razlika);
-			console.log(minDir);
-			console.log("before adding ");
-			console.log(" x: " + rotg.x + " y: " + rotg.y + " z: " + rotg.z);
-			console.log("v*s " + minDir.scale(Math.PI / 2));
-			var rot = minDir.scale(Math.PI / 2);
+					var razlika = ep.subtract(sp);
 
-			cubeMesh.rotation.x = rotg.x + rot.x;
-			cubeMesh.rotation.y = rotg.y + rot.y;
-			cubeMesh.rotation.z = rotg.z + rot.z;
+					var minDir = rotationUtils.getAxisDirection(razlika);
+					console.log(minDir);
+					console.log("before adding ");
+					console.log(" x: " + rotg.x + " y: " + rotg.y + " z: "
+							+ rotg.z);
+					console.log("v*s " + minDir.scale(Math.PI / 2));
 
-			rotg.x += rot.x;
-			rotg.y += rot.y;
-			rotg.z += rot.z;
-			console.log("final rotation :");
-			console.log(" x: " + cubeMesh.rotation.x + " y: "
-					+ cubeMesh.rotation.y + " z: " + cubeMesh.rotation.z);
-			console.log("rotg  x: " + rotg.x + " y: " + rotg.y + " z: "
-					+ rotg.z);
+					var rot = minDir.scale(Math.PI / 2);
 
+					cubeMesh.rotation.x = rotg.x + rot.x;
+					cubeMesh.rotation.y = rotg.y + rot.y;
+					cubeMesh.rotation.z = rotg.z + rot.z;
+
+					rotg.x += rot.x;
+					rotg.y += rot.y;
+					rotg.z += rot.z;
+
+					console.log("final rotation :");
+					console.log(" x: " + cubeMesh.rotation.x + " y: "
+							+ cubeMesh.rotation.y + " z: "
+							+ cubeMesh.rotation.z);
+					console.log("rotg  x: " + rotg.x + " y: " + rotg.y + " z: "
+							+ rotg.z);
+
+				}
+			}, 50);
 		}
-
 	}
 
 	function onKeyDown(evt) {
@@ -139,18 +150,32 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		case 90:
 			cubeMesh.rotationQuaternion = zq;
 			break;
-		}
-	}
+		case 66: // b
+			// cubeMesh.rotation.x += Math.PI / 2;
+			cubeMesh.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
+			break;
+		case 77: // m
+			// cubeMesh.rotation.z += Math.PI / 2;
+			cubeMesh.rotate(BABYLON.Axis.Z, Math.PI / 2, BABYLON.Space.WORLD);
+			break;
+		case 78: // n
+			// cubeMesh.rotation.y += Math.PI / 2;
+			cubeMesh.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+			break;
 
-	canvas.addEventListener("pointerdown", onPointerDown, false);
-	canvas.addEventListener("pointerup", onPointerUp, false);
-	canvas.addEventListener("pointermove", onPointerMove, false);
-	window.addEventListener("keydown", onKeyDown);
-
-	scene.onDispose = function() {
-		canvas.removeEventListener("pointerdown", onPointerDown);
-		canvas.removeEventListener("pointerup", onPointerUp);
-		canvas.removeEventListener("pointermove", onPointerMove);
+		77, 78, 66
 	}
+}
+
+canvas.addEventListener("pointerdown", onPointerDown, false);
+canvas.addEventListener("pointerup", onPointerUp, false);
+canvas.addEventListener("pointermove", onPointerMove, false);
+window.addEventListener("keydown", onKeyDown);
+
+scene.onDispose = function() {
+	canvas.removeEventListener("pointerdown", onPointerDown);
+	canvas.removeEventListener("pointerup", onPointerUp);
+	canvas.removeEventListener("pointermove", onPointerMove);
+}
 
 }
