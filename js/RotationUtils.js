@@ -56,8 +56,8 @@ function RotationUtils() {
 		var py = Math.abs(BABYLON.Vector3.Dot(yAxes, np));
 		var pz = Math.abs(BABYLON.Vector3.Dot(zAxes, np));
 
-		var max = Math.min(px, py, pz);
-		if (max == px) {
+		var min = Math.min(px, py, pz);
+		if (min == px) {
 			if (Math.max(py, pz) == py) {
 				if (point.y < 0) {
 					return BABYLON.Axis.Z.negate();
@@ -75,7 +75,7 @@ function RotationUtils() {
 			}
 			// return BABYLON.Axis.X;
 		}
-		if (max == py) {
+		if (min == py) {
 			if (Math.max(px, pz) == px) {
 				if (point.x < 0) {
 					return BABYLON.Axis.Z.negate();
@@ -94,7 +94,7 @@ function RotationUtils() {
 
 			// return BABYLON.Axis.Y;
 		}
-		if (max == pz) {
+		if (min == pz) {
 			if (Math.max(py, px) == py) {
 				if (point.y < 0) {
 					return BABYLON.Axis.X.negate();

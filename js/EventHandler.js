@@ -74,59 +74,36 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function onPointerUp() {
 		isCubePressed = false;
-		mouseMoveControl = true;
 		camera.attachControl(canvas, true);
 		var bp = 0;
 	}
 	// TODO
 	function onPointerMove(evt) {
 		var bp = 0;
-		if (mouseMoveControl && isCubePressed) {
-			mouseMoveControl = false;
-			setTimeout(function() {
 
-				if (isCubePressed) {
-					isCubePressed = false;
-					var p2 = {
-						x : evt.x,
-						y : evt.y
-					}
+		if (isCubePressed) {
+			isCubePressed = false;
+			var p2 = {
+				x : evt.x,
+				y : evt.y
+			}
 
-					var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
+			var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
 
-					var ep = pickInfo.pickedPoint;
+			var ep = pickInfo.pickedPoint;
 
-					// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
-					var bp = 0;
+			// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
+			var bp = 0;
 
-					var razlika = ep.subtract(sp);
+			var razlika = ep.subtract(sp);
 
-					var minDir = rotationUtils.getAxisDirection(razlika);
-					console.log(minDir);
-					console.log("before adding ");
-					console.log(" x: " + rotg.x + " y: " + rotg.y + " z: "
-							+ rotg.z);
-					console.log("v*s " + minDir.scale(Math.PI / 2));
+			var minDir = rotationUtils.getAxisDirection(razlika);
+			console.log(minDir);
+			console.log("v*s " + minDir.scale(Math.PI / 2));
 
-					var rot = minDir.scale(Math.PI / 2);
+			var rot = minDir.scale(Math.PI / 2);
+			cubeMesh.rotate(rot, Math.PI / 2, BABYLON.Space.WORLD);
 
-					cubeMesh.rotation.x = rotg.x + rot.x;
-					cubeMesh.rotation.y = rotg.y + rot.y;
-					cubeMesh.rotation.z = rotg.z + rot.z;
-
-					rotg.x += rot.x;
-					rotg.y += rot.y;
-					rotg.z += rot.z;
-
-					console.log("final rotation :");
-					console.log(" x: " + cubeMesh.rotation.x + " y: "
-							+ cubeMesh.rotation.y + " z: "
-							+ cubeMesh.rotation.z);
-					console.log("rotg  x: " + rotg.x + " y: " + rotg.y + " z: "
-							+ rotg.z);
-
-				}
-			}, 50);
 		}
 	}
 
