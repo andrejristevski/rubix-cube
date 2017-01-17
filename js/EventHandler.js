@@ -16,6 +16,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var v1 = new BABYLON.Vector2(0, 0);
 	var zq = null;
 	var rotationAxis = null;
+	var angleSoFar = 0;
 
 	var rotg = {};
 	rotg.x = 0;
@@ -76,8 +77,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	function onPointerUp() {
 		isCubePressed = false;
 		camera.attachControl(canvas, true);
-		rotationAxis = null
 		var bp = 0;
+
+		finishRotation();
+		rotationAxis = null;
+		angleSoFar = 0;
 	}
 	// TODO
 	function onPointerMove(evt) {
@@ -85,6 +89,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 		if (rotationAxis != null) {
 			cubeMesh.rotate(rotationAxis, Math.PI / 100, BABYLON.Space.WORLD);
+			console.log('mouse move ' + rotationAxis);
+			angleSoFar += Math.PI / 100;
 		}
 
 		if (isCubePressed) {
@@ -108,17 +114,27 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				var minDir = rotationUtils.getAxisDirection(razlika);
 
 				var face = rotationUtils.getFace(razlika);
-				console.log(minDir);
-				console.log("v*s " + minDir.scale(Math.PI / 2));
+				// console.log(minDir);
+				// console.log("v*s " + minDir.scale(Math.PI / 2));
 
 				var rot = minDir.scale(Math.PI / 2);
-				rotationAxis = rot;
+				if (rotationAxis == null) {
+					rotationAxis = minDir;
+				}
+				angleSoFar += Math.PI / 100;
+				console.log('angle so far ' + angleSoFar);
 
-				cubeMesh.rotate(rot, Math.PI / 100, BABYLON.Space.WORLD);
+				cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
 
 			}
 
 		}
+	}
+
+	function finishRotation() {
+		var remAngle = (Math.PI / 2) - angleSoFar;
+		cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
+		console.log('mouse up ' + rotationAxis);
 	}
 
 	function onKeyDown(evt) {
