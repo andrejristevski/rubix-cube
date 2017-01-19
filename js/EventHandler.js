@@ -27,7 +27,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	var startQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
 	cubeMesh.rotationQuaternion = startQuaternion;
-	console.log("start " + startQuaternion.toEulerAngles());
 
 	var sp = null;
 	var ep = null;
@@ -89,7 +88,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 		if (rotationAxis != null) {
 			cubeMesh.rotate(rotationAxis, Math.PI / 100, BABYLON.Space.WORLD);
-			console.log('mouse move ' + rotationAxis);
+			// console.log('mouse move ' + rotationAxis);
 			angleSoFar += Math.PI / 100;
 		}
 
@@ -111,9 +110,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 				var razlika = ep.subtract(sp);
 
-				var minDir = rotationUtils.getAxisDirection(razlika);
+				var face = rotationUtils.getFace(ep);
 
-				var face = rotationUtils.getFace(razlika);
+
+				var minDir = rotationUtils.getAxisDirection(razlika, face);
+
 				// console.log(minDir);
 				// console.log("v*s " + minDir.scale(Math.PI / 2));
 
@@ -122,7 +123,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 					rotationAxis = minDir;
 				}
 				angleSoFar += Math.PI / 100;
-				console.log('angle so far ' + angleSoFar);
+				// console.log('angle so far ' + angleSoFar);
 
 				cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
 
@@ -134,7 +135,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	function finishRotation() {
 		var remAngle = (Math.PI / 2) - angleSoFar;
 		cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
-		console.log('mouse up ' + rotationAxis);
+//		console.log('mouse up ' + rotationAxis);
 	}
 
 	function onKeyDown(evt) {
