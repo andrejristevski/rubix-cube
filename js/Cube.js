@@ -4,6 +4,7 @@ function Cube(scene, n, partSize, offset) {
 	this.cube.isVisible = false;
 
 	this.cubicls = [];
+	this.wmMap= [];
 	this.scene = scene;
 	this.n = n;
 	this.partSize = partSize;
@@ -11,6 +12,7 @@ function Cube(scene, n, partSize, offset) {
 	this.createCubix(this.scene, this.n, this.partSize, this.cube, offset);
 	this.centerTheCubiclsAroundCube(n, partSize, offset);
 	this.rotationUtils = new RotationUtils();
+	
 
 	// this.colorTheFaces(null, this.cubicls, this.scene);
 }
@@ -50,10 +52,14 @@ Cube.prototype.centerTheCubiclsAroundCube = function(n, partSize, offset) {
 };
 
 Cube.prototype.createCubix = function(scene, n, partSize, parent, offset) {
-
+	var t=true;
 	for (var i = 0; i < n; i++) {
 		for (var j = 0; j < n; j++) {
 			for (var k = 0; k < n; k++) {
+				
+				if (t) {
+// t=false;
+				
 
 				var faceColors = [];
 
@@ -87,83 +93,266 @@ Cube.prototype.createCubix = function(scene, n, partSize, parent, offset) {
 				cubicl.parent = parent;
 
 				this.cubicls.push(cubicl);
-
+				this.wmMap.push((cubicl.getWorldMatrix()).clone());
+				}
 			}
 		}
 	}
 }
 
-Cube.prototype.rotateQuater = function(vec) {
+Cube.prototype.fja=function(){
+	
+for(var i=0; i<this.cubicls.length ; i++){
+		
+		var cub=this.cubicls[i];
+		
+		var wmMap=this.wmMap;
+		
+		
+			
+		cub.parent=this.cube;
+				
+// wmMap[i]=(cub.getWorldMatrix()).clone();
+		
+	}
+	
+}
 
-	var q = new BABYLON.Quaternion(0, 0, 0.5, 45);
+Cube.prototype.parentazai=function(){
+	
+	var wmMap=this.wmMap;
+	
+	for(var i=0; i<this.cubicls.length ; i++){
+		
+		var cub=this.cubicls[i];
+		
+		cub.parent=this.cube;
+		
+// wmMap[i]=(cub.getWorldMatrix()).clone();
+		
+	}
+	
+	var bp=0;
+	
+}
+//
+// Cube.prototype.deparentazai=function(){
+//	
+// var wmMap=this.wmMap;
+//	
+// for(var i=0; i<this.cubicls.length ; i++){
+//		
+// var cub=this.cubicls[i];
+//		
+// cub.parent=null;
+//		
+// cub._worldMatrix=wmMap[i];
+// }
+//	
+//	
+// }
 
-	//this.cube.rotationQuaternion = q;
+Cube.prototype.rotate=function(rotationAxis, angle){
+	
+	// add parent to rotate
+	this.parentazai();
+	
+	this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
+	// take parent away and
+	
+// this.deparentazai();
+	
 
 }
 
-Cube.prototype.rotateLayer = function(direction, face) {
+function getMeshInfoFromMatrix(mat){
+	
+	var o={};
+	
+	
+	o.x=mat.m[12];
+	o.y=mat.m[13];
+	o.z=mat.m[14];
+	
+	return o;
+}
 
-	// TODO reweork asolen
 
-	var rot;
-
-	if (face == Faces.FRONT || face == Faces.BACK) {
-		rot = this.cube.rotation.x;
-
-		if (direction == Direction.UP) {
-
-			rot += Math.PI / 2;
-		}
-
-		if (direction == Direction.DOWN) {
-
-			rot -= Math.PI / 2;
-
-		}
-		this.cube.rotation.x = rot;
+Cube.prototype.frot=function(axis){
+	
+	var wmMap=this.wmMap;
+	
+	for(var i=0; i<this.cubicls.length ; i++){
+		
+		var cub=this.cubicls[i];
+		wmMap[i]=(cub.getWorldMatrix()).clone();
+		
+		wmMap[i]=getMeshInfoFromMatrix(cub.getWorldMatrix());
+		var bp=0;
+		
+		cub.parent=null;
+		
 	}
-
-	if (face == Faces.LEFT || face == Faces.RIGHT) {
-		rot = this.cube.rotation.z;
-
-		if (direction == Direction.UP) {
-
-			rot += Math.PI / 2;
-		}
-
-		if (direction == Direction.DOWN) {
-
-			rot -= Math.PI / 2;
-
-		}
-		this.cube.rotation.z = rot;
+	
+	this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
+	
+	if (axis == BABYLON.Axis.Z) {
+		
+	} else if (BABYLON.Axis.Z.negate()) {
+		
+	} else if (BABYLON.Axis.X.negate()) {
+		
+	} else if (BABYLON.Axis.X) {
+		
+	} else if (BABYLON.Axis.Y.negate()) {
+		
+	} else if (BABYLON.Axis.Y) {
+		
 	}
-
-	if (face == Faces.TOP || face == Faces.BOTTOM) {
-		rot = this.cube.rotation.x;
-
-		if (direction == Direction.UP) {
-
-			rot += Math.PI / 2;
+	
+	setTimeout(() => {
+		for(var i=0; i<this.cubicls.length ; i++){
+			
+			var cub=this.cubicls[i];
+			
+			cub.position.x=wmMap[i].x;
+			cub.position.y=wmMap[i].y;
+			cub.position.z=wmMap[i].z;
+			
+			
+			cub.rotate(axis, Math.PI /2 ,BABYLON.Space.WORLD);
+			
+			if (axis.equals( BABYLON.Axis.Z)) {
+				
+//				cub.rotation.z+=Math.PI /2;
+				
+			} else if (axis.equals(BABYLON.Axis.Z.negate())) {
+				
+//				cub.rotation.z-=Math.PI /2;
+				
+			} else if (axis.equals(BABYLON.Axis.X.negate())) {
+				
+//				cub.rotation.x-=Math.PI /2;
+				
+			} else if (axis.equals(BABYLON.Axis.X)) {
+				
+//				cub.rotation.x+=Math.PI /2;
+				
+			} else if (axis.equals(BABYLON.Axis.Y.negate())) {
+				
+//				cub.rotation.y-=Math.PI /2;
+				
+			} else if (axis.equals( BABYLON.Axis.Y)) {
+				
+//				cub.rotation.y+=Math.PI /2;
+				
+				
+			}
+			
+			
 		}
+	}, 5);
+	
+	
+	
+// this.deparentazai();
+	
+}
 
-		if (direction == Direction.DOWN) {
 
-			rot -= Math.PI / 2;
 
-		}
-		this.cube.rotation.x = rot;
+Cube.prototype.printMatrixes=function(){
+	
+	
+	
+	var cub=this.cubicls[0];
+	var par =this.cube;
+	
+	var mesh=cub;
+	
+	
+	console.log('position ' + JSON.stringify(mesh.position));
+	console.log('rot ' + JSON.stringify(mesh.rotation));
+	console.log('world ' + JSON.stringify(mesh.getWorldMatrix()));
+
+	
+	
+}
+
+
+Cube.prototype.saveWM=function(){
+	
+	
+	var cub=this.cubicls[0];
+	var par =this.cube;
+	
+	var mesh=cub;
+	
+	this.wm=(mesh.getWorldMatrix()).clone();
+	
+	
+}
+
+Cube.prototype.rot=function(){
+	
+	
+	
+	var cub=this.cubicls[0];
+	var par =this.cube;
+	
+	var mesh=cub;
+	
+	cub.parent=null;
+	
+}
+
+
+Cube.prototype.setWM=function(){
+	
+	
+	var cub=this.cubicls[0];
+	var par =this.cube;
+	
+	var mesh=cub;
+	
+// mesh.setWorldMatrix(this.wm);
+	mesh._worldMatrix=this.wm;
+	
+}
+
+Cube.prototype.frotone=function(){
+	
+	var wmMap=this.wmMap;
+	
+	for(var i=0; i<this.cubicls.length ; i++){
+		
+		var cub=this.cubicls[i];
+		wmMap[i]=(cub.getWorldMatrix()).clone();
+		
+// wmMap[i]=getMeshInfoFromMatrix(cub.getWorldMatrix());
+		var bp=0;
+		
+		cub.parent=null;
+		
 	}
-	// da se dodaj za celosno da raboti
-	// if (direction == Direction.LEFT) {
-	//
-	// this.cube.rotation.y += Math.PI / 2;
-	//
-	// }
-	//
-	// if (direction == Direction.RIGHT) {
-	//
-	// this.cube.rotation.y -= Math.PI / 2;
-	// }
-
+	
+	this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
+	
+	setTimeout(() => {
+		for(var i=0; i<this.cubicls.length ; i++){
+			
+			var cub=this.cubicls[i];
+// wmMap[i]=(cub.getWorldMatrix()).clone();
+			
+// if (i!=this.cubicls.length-1) {
+			cub._worldMatrix=wmMap[i];
+// }
+			
+		}
+	}, 5);
+	
+	
+	
+// this.deparentazai();
+	
 }

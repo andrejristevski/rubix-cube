@@ -15,28 +15,28 @@ function RotationUtils() {
 		var max = Math.max(px, py, pz);
 		if (max == px) {
 			if (point.x > 0) {
-				console.log("right");
+//				console.log("right");
 				return Faces.RIGHT;
 			} else {
-				console.log("left");
+//				console.log("left");
 				return Faces.LEFT;
 			}
 		}
 		if (max == py) {
 			if (point.y > 0) {
-				console.log("Top");
+//				console.log("Top");
 				return Faces.TOP;
 			} else {
-				console.log("bottom");
+//				console.log("bottom");
 				return Faces.BOTTOM;
 			}
 		}
 		if (max == pz) {
 			if (point.z > 0) {
-				console.log("Back");
+//				console.log("Back");
 				return Faces.BACK;
 			} else {
-				console.log("Front");
+//				console.log("Front");
 				return Faces.FRONT;
 			}
 		}
