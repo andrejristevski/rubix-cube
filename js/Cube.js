@@ -82,15 +82,19 @@ Cube.prototype.createCubix = function(scene, n, partSize, parent, offset) {
 				// var cubicl = new BABYLON.Mesh.CreateBox("cubcl" + i + j + k,
 				// options, scene);
 
-				cubicl.i = i;
-				cubicl.j = j;
-				cubicl.k = k;
+				cubicl.si = i;
+				cubicl.sj = j;
+				cubicl.sk = k;
+				
+				cubicl.ci = i;
+				cubicl.cj = j;
+				cubicl.ck = k;
 
 				cubicl.position.x = i * (partSize + offset);
 				cubicl.position.y = j * (partSize + offset);
 				cubicl.position.z = k * (partSize + offset);
 
-				cubicl.parent = parent;
+//				cubicl.parent = parent;
 
 				this.cubicls.push(cubicl);
 				this.wmMap.push((cubicl.getWorldMatrix()).clone());
@@ -110,7 +114,7 @@ for(var i=0; i<this.cubicls.length ; i++){
 		
 		
 			
-		cub.parent=this.cube;
+//		cub.parent=this.cube;
 				
 // wmMap[i]=(cub.getWorldMatrix()).clone();
 		
@@ -118,7 +122,23 @@ for(var i=0; i<this.cubicls.length ; i++){
 	
 }
 
-Cube.prototype.parentazai=function(){
+function getImportantCoordinate(axis){
+	
+	if (axis.equals(BABYLON.Axis.Z.negate()) || axis.equals(BABYLON.Axis.Z)) {
+		return 'z';
+	} else if (axis.equals(BABYLON.Axis.X.negate()) || axis.equals(BABYLON.Axis.X)) {
+		return 'x';
+	} else if (axis.equals(BABYLON.Axis.Y.negate()) || axis.equals(BABYLON.Axis.Y)) {
+		return 'y';
+	}
+	
+	
+}
+
+Cube.prototype.parentazai=function(rotationAxis , curCub){
+	
+	var imAxis = getImportantCoordinate(rotationAxis);
+	
 	
 	var wmMap=this.wmMap;
 	
@@ -126,7 +146,17 @@ Cube.prototype.parentazai=function(){
 		
 		var cub=this.cubicls[i];
 		
-		cub.parent=this.cube;
+		
+			if (imAxis=='x' && cub.ci==curCub.i) {
+				cub.parent=this.cube;
+			} else if(imAxis=='y' && cub.cj==curCub.j) {
+				cub.parent=this.cube;
+			} else if(imAxis=='z' && cub.ck==curCub.k){
+				cub.parent=this.cube;
+			}
+			
+			
+//		cub.parent=this.cube;
 		
 // wmMap[i]=(cub.getWorldMatrix()).clone();
 		
@@ -135,27 +165,11 @@ Cube.prototype.parentazai=function(){
 	var bp=0;
 	
 }
-//
-// Cube.prototype.deparentazai=function(){
-//	
-// var wmMap=this.wmMap;
-//	
-// for(var i=0; i<this.cubicls.length ; i++){
-//		
-// var cub=this.cubicls[i];
-//		
-// cub.parent=null;
-//		
-// cub._worldMatrix=wmMap[i];
-// }
-//	
-//	
-// }
 
-Cube.prototype.rotate=function(rotationAxis, angle){
+Cube.prototype.rotate=function(rotationAxis, angle , curCub){
 	
 	// add parent to rotate
-	this.parentazai();
+	this.parentazai(rotationAxis,curCub );
 	
 	this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
 	// take parent away and
@@ -169,7 +183,6 @@ function getMeshInfoFromMatrix(mat){
 	
 	var o={};
 	
-	
 	o.x=mat.m[12];
 	o.y=mat.m[13];
 	o.z=mat.m[14];
@@ -178,7 +191,7 @@ function getMeshInfoFromMatrix(mat){
 }
 
 
-Cube.prototype.frot=function(axis){
+Cube.prototype.frot=function(axis , curCub){
 	
 	var wmMap=this.wmMap;
 	
@@ -190,25 +203,12 @@ Cube.prototype.frot=function(axis){
 		wmMap[i]=getMeshInfoFromMatrix(cub.getWorldMatrix());
 		var bp=0;
 		
+		
 		cub.parent=null;
 		
 	}
 	
-	this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 	
-	if (axis == BABYLON.Axis.Z) {
-		
-	} else if (BABYLON.Axis.Z.negate()) {
-		
-	} else if (BABYLON.Axis.X.negate()) {
-		
-	} else if (BABYLON.Axis.X) {
-		
-	} else if (BABYLON.Axis.Y.negate()) {
-		
-	} else if (BABYLON.Axis.Y) {
-		
-	}
 	
 	setTimeout(() => {
 		for(var i=0; i<this.cubicls.length ; i++){
@@ -220,42 +220,19 @@ Cube.prototype.frot=function(axis){
 			cub.position.z=wmMap[i].z;
 			
 			
+			// i can use the position to give the values ci,cj,ck to the cubicl
+// console.log(wmMap[i].x);
+// console.log(wmMap[i].y);
+// console.log(wmMap[i].z);
+			
 			cub.rotate(axis, Math.PI /2 ,BABYLON.Space.WORLD);
-			
-			if (axis.equals( BABYLON.Axis.Z)) {
-				
-//				cub.rotation.z+=Math.PI /2;
-				
-			} else if (axis.equals(BABYLON.Axis.Z.negate())) {
-				
-//				cub.rotation.z-=Math.PI /2;
-				
-			} else if (axis.equals(BABYLON.Axis.X.negate())) {
-				
-//				cub.rotation.x-=Math.PI /2;
-				
-			} else if (axis.equals(BABYLON.Axis.X)) {
-				
-//				cub.rotation.x+=Math.PI /2;
-				
-			} else if (axis.equals(BABYLON.Axis.Y.negate())) {
-				
-//				cub.rotation.y-=Math.PI /2;
-				
-			} else if (axis.equals( BABYLON.Axis.Y)) {
-				
-//				cub.rotation.y+=Math.PI /2;
-				
-				
-			}
-			
-			
 		}
-	}, 5);
+		this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
+		
+		
+	}, 0);
 	
 	
-	
-// this.deparentazai();
 	
 }
 

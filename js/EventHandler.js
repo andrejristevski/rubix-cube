@@ -17,6 +17,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var zq = null;
 	var rotationAxis = null;
 	var angleSoFar = 0;
+	var presedCube={};
+	
 
 	var rotg = {};
 	rotg.x = 0;
@@ -73,6 +75,12 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			var bp = 0;
 			p1.x = evt.x;
 			p1.y = evt.y;
+			
+			presedCube.i=mesh.ci;
+			presedCube.j=mesh.cj;
+			presedCube.k=mesh.ck;
+			
+			
 
 			setTimeout(function() {
 				camera.detachControl(canvas);
@@ -98,7 +106,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		if (rotationAxis != null) {
 			// cubeMesh.rotate(rotationAxis, Math.PI / 100,
 			// BABYLON.Space.WORLD);
-			cube.rotate(rotationAxis, Math.PI / 100);
+			cube.rotate(rotationAxis, Math.PI / 100, presedCube);
 			
 			console.log('raxis '+rotationAxis);
 			// console.log('mouse move ' + rotationAxis);
@@ -136,7 +144,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				}
 				angleSoFar += Math.PI / 100;
 				// console.log('angle so far ' + angleSoFar);
-				cube.rotate(minDir, Math.PI / 100);
+				cube.rotate(minDir, Math.PI / 100 ,presedCube);
 				console.log('raxis '+rotationAxis);
 				// cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
 
@@ -147,9 +155,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
-		cube.rotate(rotationAxis, remAngle);
+		cube.rotate(rotationAxis, remAngle ,presedCube);
 		setTimeout(() => {
-			cube.frot(vec);
+			cube.frot(vec, presedCube);
 		}, 5);
 		// cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
 		// console.log('mouse up ' + rotationAxis);
