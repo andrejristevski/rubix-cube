@@ -108,7 +108,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// BABYLON.Space.WORLD);
 			cube.rotate(rotationAxis, Math.PI / 100, presedCube);
 			
-			console.log('raxis '+rotationAxis);
 			// console.log('mouse move ' + rotationAxis);
 			angleSoFar += Math.PI / 100;
 		}
@@ -145,7 +144,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				angleSoFar += Math.PI / 100;
 				// console.log('angle so far ' + angleSoFar);
 				cube.rotate(minDir, Math.PI / 100 ,presedCube);
-				console.log('raxis '+rotationAxis);
 				// cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
 
 			}
