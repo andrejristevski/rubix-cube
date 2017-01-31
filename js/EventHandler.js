@@ -1,9 +1,3 @@
-/*example of quaternions
- * 	var rotationQuaternion = BABYLON.Quaternion.RotationAxis(
- new BABYLON.Vector3(1, 0, 0), Math.PI /2);
- var end = cubeMesh.rotationQuaternion.multiply(rotationQuaternion);
- cubeMesh.rotationQuaternion = end;
- */
 function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	var cubeMesh = cube.getControl();
@@ -13,26 +7,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var firstClick = null;
 	var p1 = {};
 	var face = Faces.FRONT;
-	var v1 = new BABYLON.Vector2(0, 0);
-	var zq = null;
 	var rotationAxis = null;
 	var angleSoFar = 0;
 	var presedCube={};
 	
-
-	var rotg = {};
-	rotg.x = 0;
-	rotg.y = 0;
-	rotg.z = 0;
-
-	var mouseMoveControl = true;
-
-	var startQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
-	cubeMesh.rotationQuaternion = startQuaternion;
-
-	var sp = null;
-	var ep = null;
-
 	function getDirection(p1, p2) {
 
 		if (p1.x < p2.x) {
@@ -223,6 +201,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		canvas.removeEventListener("pointerdown", onPointerDown);
 		canvas.removeEventListener("pointerup", onPointerUp);
 		canvas.removeEventListener("pointermove", onPointerMove);
+		window.removeEventListener("keydown", onKeyDown);
 	}
 
 }

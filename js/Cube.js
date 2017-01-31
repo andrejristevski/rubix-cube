@@ -176,11 +176,6 @@ Cube.prototype.parentazai=function(rotationAxis , curCub){
 				cub.parent=this.cube;
 				this.activeCubicls.push(cub);
 			}
-			
-			
-// cub.parent=this.cube;
-		
-// wmMap[i]=(cub.getWorldMatrix()).clone();
 		
 	}
 	
@@ -190,7 +185,6 @@ Cube.prototype.parentazai=function(rotationAxis , curCub){
 
 Cube.prototype.rotate=function(rotationAxis, angle , curCub){
 	
-	// add parent to rotate
 	
 	if (this.rFlag) {
 		this.parentazai(rotationAxis,curCub );
@@ -198,28 +192,23 @@ Cube.prototype.rotate=function(rotationAxis, angle , curCub){
 	}
 	
 	this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
-	// take parent away and
-	
-// this.deparentazai();
-	
-
 }
 
 function getMeshInfoFromMatrix(cub){
 	
 	var mat=cub.getWorldMatrix();
 	
-	var o={};
+	var res={};
 	
-	o.x=mat.m[12];
-	o.y=mat.m[13];
-	o.z=mat.m[14];
+	res.x=mat.m[12];
+	res.y=mat.m[13];
+	res.z=mat.m[14];
 	
-	o.ci=cub.ci;
-	o.cj=cub.cj;
-	o.ck=cub.ck;
+	res.ci=cub.ci;
+	res.cj=cub.cj;
+	res.ck=cub.ck;
 	
-	return o;
+	return res;
 }
 
 
@@ -244,7 +233,6 @@ Cube.prototype.frot=function(axis , curCub){
 	for(var i=0; i<this.cubicls.length ; i++){
 		
 		var cub=this.cubicls[i];
-// wmMap[i]=(cub.getWorldMatrix()).clone();
 		
 		wmMap[i]=getMeshInfoFromMatrix(cub);
 		
@@ -257,11 +245,7 @@ Cube.prototype.frot=function(axis , curCub){
 		for(var i=0; i<this.activeCubicls.length ; i++){
 			
 			
-			// get cub with key
 			var cub = this.activeCubicls[i];
-			// var cub = getCubByTriple(this.cubicls , );
-			
-			// TODO get correct cubicl not the first
 			
 			var cubInfo = getCubeInfo(cub , wmMap);
 			
@@ -320,61 +304,4 @@ function reorderCubicls(cubicls , cubPosMap){
 	var bp=0;
 }
 
-Cube.prototype.printMatrixes=function(){
-	
-	
-	
-	var cub=this.cubicls[0];
-	var par =this.cube;
-	
-	var mesh=cub;
-	
-	
-	console.log('position ' + JSON.stringify(mesh.position));
-	console.log('rot ' + JSON.stringify(mesh.rotation));
-	console.log('world ' + JSON.stringify(mesh.getWorldMatrix()));
 
-	
-	
-}
-
-
-Cube.prototype.saveWM=function(){
-	
-	
-	var cub=this.cubicls[0];
-	var par =this.cube;
-	
-	var mesh=cub;
-	
-	this.wm=(mesh.getWorldMatrix()).clone();
-	
-	
-}
-
-Cube.prototype.rot=function(){
-	
-	
-	
-	var cub=this.cubicls[0];
-	var par =this.cube;
-	
-	var mesh=cub;
-	
-	cub.parent=null;
-	
-}
-
-
-Cube.prototype.setWM=function(){
-	
-	
-	var cub=this.cubicls[0];
-	var par =this.cube;
-	
-	var mesh=cub;
-	
-// mesh.setWorldMatrix(this.wm);
-	mesh._worldMatrix=this.wm;
-	
-}

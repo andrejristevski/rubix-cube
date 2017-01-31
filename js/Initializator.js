@@ -1,4 +1,5 @@
 var init = function() {
+	
 	var canvas = document.getElementById("renderCanvas");
 	var engine = new BABYLON.Engine(canvas, true);
 
@@ -57,7 +58,6 @@ var init = function() {
 		var rotationUtils = new RotationUtils();
 		var eventHandler = new EventHandler(canvas, window, cube, scene,
 				camera, rotationUtils);
-		var bp = 0;
 
 		return scene;
 
