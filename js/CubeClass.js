@@ -63,144 +63,144 @@ class CubeClass {
             for (var j = 0; j < n; j++) {
                 for (var k = 0; k < n; k++) {
 
-                    // if (i == 0 || i == n - 1 || j == 0 || j == n - 1 || k == 0 || k == n - 1) {
+                    if (i == 0 || i == n - 1 || j == 0 || j == n - 1 || k == 0 || k == n - 1) {
                         // t=false;
-                            var faceColors = [];
+                        var faceColors = [];
 
-                            faceColors[0] = new BABYLON.Color3(1, 0, 0); // red
-                            faceColors[1] = new BABYLON.Color3(0, 1, 0); // green
-                            faceColors[2] = new BABYLON.Color3(0, 0, 1); // blue
-                            faceColors[3] = new BABYLON.Color3(0, 1, 1); // //svetlo sino
-                            // zeleno
-                            faceColors[4] = new BABYLON.Color3(1, 1, 0); // yellow
-                            faceColors[5] = new BABYLON.Color3(1, 0, 1); // rozeva
+                        faceColors[0] = new BABYLON.Color3(1, 0, 0); // red
+                        faceColors[1] = new BABYLON.Color3(0, 1, 0); // green
+                        faceColors[2] = new BABYLON.Color3(0, 0, 1); // blue
+                        faceColors[3] = new BABYLON.Color3(0, 1, 1); // //svetlo sino
+                        // zeleno
+                        faceColors[4] = new BABYLON.Color3(1, 1, 0); // yellow
+                        faceColors[5] = new BABYLON.Color3(1, 0, 1); // rozeva
 
-                            var options = {
-                                width: partSize,
-                                height: partSize,
-                                depth: partSize,
-                                faceColors: faceColors
-                            };
-                            var cubicl = BABYLON.MeshBuilder.CreateBox("cubcl" + i + j + k,
-                                options, scene);
-                            // var cubicl = new BABYLON.Mesh.CreateBox("cubcl" + i + j + k,
-                            // options, scene);
+                        var options = {
+                            width: partSize,
+                            height: partSize,
+                            depth: partSize,
+                            faceColors: faceColors
+                        };
+                        var cubicl = BABYLON.MeshBuilder.CreateBox("cubcl" + i + j + k,
+                            options, scene);
+                        // var cubicl = new BABYLON.Mesh.CreateBox("cubcl" + i + j + k,
+                        // options, scene);
 
-                            cubicl.si = i;
-                            cubicl.sj = j;
-                            cubicl.sk = k;
+                        cubicl.si = i;
+                        cubicl.sj = j;
+                        cubicl.sk = k;
 
-                            cubicl.ci = i;
-                            cubicl.cj = j;
-                            cubicl.ck = k;
+                        cubicl.ci = i;
+                        cubicl.cj = j;
+                        cubicl.ck = k;
 
-                            cubicl.position.x = i * (partSize + offset);
-                            cubicl.position.y = j * (partSize + offset);
-                            cubicl.position.z = k * (partSize + offset);
+                        cubicl.position.x = i * (partSize + offset);
+                        cubicl.position.y = j * (partSize + offset);
+                        cubicl.position.z = k * (partSize + offset);
 
-                            this.cubicls.push(cubicl);
-                            // this.wmMap.push((cubicl.getWorldMatrix()).clone());
-                        // }
+                        this.cubicls.push(cubicl);
+                        // this.wmMap.push((cubicl.getWorldMatrix()).clone());
                     }
                 }
             }
         }
+    }
 
 
 
-        parentazai(rotationAxis, curCub) {
+    parentazai(rotationAxis, curCub) {
 
-            var imAxis = getImportantCoordinate(rotationAxis);
-
-
-            var wmMap = this.wmMap;
-
-            for (var i = 0; i < this.cubicls.length; i++) {
-
-                var cub = this.cubicls[i];
+        var imAxis = getImportantCoordinate(rotationAxis);
 
 
-                if (imAxis == 'x' && cub.ci == curCub.i) {
+        var wmMap = this.wmMap;
 
-                    cub.parent = this.cube;
-                    this.activeCubicls.push(cub);
-                    cub.isActive = true;
+        for (var i = 0; i < this.cubicls.length; i++) {
 
-                } else if (imAxis == 'y' && cub.cj == curCub.j) {
-
-                    cub.isActive = true;
-                    cub.parent = this.cube;
-                    this.activeCubicls.push(cub);
+            var cub = this.cubicls[i];
 
 
-                } else if (imAxis == 'z' && cub.ck == curCub.k) {
+            if (imAxis == 'x' && cub.ci == curCub.i) {
 
-                    cub.isActive = true;
-                    cub.parent = this.cube;
-                    this.activeCubicls.push(cub);
-                }
+                cub.parent = this.cube;
+                this.activeCubicls.push(cub);
+                cub.isActive = true;
 
+            } else if (imAxis == 'y' && cub.cj == curCub.j) {
+
+                cub.isActive = true;
+                cub.parent = this.cube;
+                this.activeCubicls.push(cub);
+
+
+            } else if (imAxis == 'z' && cub.ck == curCub.k) {
+
+                cub.isActive = true;
+                cub.parent = this.cube;
+                this.activeCubicls.push(cub);
             }
-
-            var bp = 0;
 
         }
 
-        rotate(rotationAxis, angle, curCub) {
+        var bp = 0;
+
+    }
+
+    rotate(rotationAxis, angle, curCub) {
 
 
-            if (this.rFlag) {
-                this.parentazai(rotationAxis, curCub);
-                this.rFlag = false;
-            }
+        if (this.rFlag) {
+            this.parentazai(rotationAxis, curCub);
+            this.rFlag = false;
+        }
 
-            this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
+        this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
+    }
+
+
+    frot(axis, curCub) {
+
+        var wmMap = this.wmMap;
+
+        for (var i = 0; i < this.cubicls.length; i++) {
+
+            var cub = this.cubicls[i];
+
+            wmMap[i] = getMeshInfoFromMatrix(cub);
+
+            cub.parent = null;
+
         }
 
 
-        frot(axis, curCub) {
+        setTimeout(() => {
+            for (var i = 0; i < this.activeCubicls.length; i++) {
 
-            var wmMap = this.wmMap;
 
-            for (var i = 0; i < this.cubicls.length; i++) {
+                var cub = this.activeCubicls[i];
 
-                var cub = this.cubicls[i];
+                var cubInfo = getCubeInfo(cub, wmMap);
 
-                wmMap[i] = getMeshInfoFromMatrix(cub);
+                cub.position.x = cubInfo.x;
+                cub.position.y = cubInfo.y;
+                cub.position.z = cubInfo.z;
 
-                cub.parent = null;
+                cub.rotate(axis, Math.PI / 2, BABYLON.Space.WORLD);
 
             }
+            this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 
-
-            setTimeout(() => {
-                for (var i = 0; i < this.activeCubicls.length; i++) {
-
-
-                    var cub = this.activeCubicls[i];
-
-                    var cubInfo = getCubeInfo(cub, wmMap);
-
-                    cub.position.x = cubInfo.x;
-                    cub.position.y = cubInfo.y;
-                    cub.position.z = cubInfo.z;
-
-                    cub.rotate(axis, Math.PI / 2, BABYLON.Space.WORLD);
-
-                }
-                this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
-
-                this.activeCubicls = [];
-                this.rFlag = true;
+            this.activeCubicls = [];
+            this.rFlag = true;
 
                 reorderCubicls(this.cubicls, this.cubPosMap);
 
-            }, 0);
+        }, 0);
 
-
-        }
 
     }
+
+}
 
 function reorderCubicls(cubicls, cubPosMap) {
 
@@ -212,9 +212,17 @@ function reorderCubicls(cubicls, cubPosMap) {
 
         var order = getCubOrder(pos, cubPosMap);
 
-        cubix.ci = order.x;
-        cubix.cj = order.y;
-        cubix.ck = order.z;
+
+        try {
+
+            cubix.ci = order.x;
+            cubix.cj = order.y;
+            cubix.ck = order.z;
+        } catch (e) {
+            var bp = 0;
+
+            console.log('reordered');
+        }
 
 
     }

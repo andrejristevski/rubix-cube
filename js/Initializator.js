@@ -4,10 +4,6 @@ var init = function() {
 	var engine = new BABYLON.Engine(canvas, true);
 
 	var createScene = function() {
-		
-		var log = new Log();
-		
-		log.logmsg();
 
 		// EventHandler.rotateLayer();
 		// var eventHandler = new EventHandler();

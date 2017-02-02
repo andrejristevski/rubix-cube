@@ -5,32 +5,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var canRotate = true;
 	var isCubePressed = false;
 	var firstClick = null;
-	var p1 = {};
 	var face = Faces.FRONT;
 	var rotationAxis = null;
 	var angleSoFar = 0;
 	var presedCube = {};
-
-	function getDirection(p1, p2) {
-
-		if (p1.x < p2.x) {
-			// console.log('desno');
-			return Direction.RIGHT;
-		}
-		if (p1.x > p2.x) {
-			// console.log('levo');
-			return Direction.LEFT;
-		}
-		if (p1.y < p2.y) {
-			// console.log('dolu');
-			return Direction.DOWN;
-		}
-		if (p1.y > p2.y) {
-			// console.log('gore');
-			return Direction.UP;
-		}
-
-	}
 
 	function onPointerDown(evt) {
 
@@ -39,10 +17,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 			var mesh = pickInfo.pickedMesh;
 
-			// console.log('pivotmatrix ' +
-			// JSON.stringify(mesh.getPivotMatrix()));
-			// console.log('world ' + JSON.stringify(mesh.getWorldMatrix()));
-
 			isCubePressed = true;
 			var bp = 0;
 			var pickedPoint = pickInfo.pickedPoint;
@@ -50,10 +24,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				pickedPoint.z);
 			// face = rotationUtils.getFace(pickedPoint);
 			face = RotationUtils.getFace(pickedPoint);
-
-			var bp = 0;
-			p1.x = evt.x;
-			p1.y = evt.y;
 
 			presedCube.i = mesh.ci;
 			presedCube.j = mesh.cj;
@@ -93,10 +63,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 		if (isCubePressed) {
 			isCubePressed = false;
-			var p2 = {
-				x: evt.x,
-				y: evt.y
-			}
 
 			if (rotationAxis == null) {
 
@@ -104,7 +70,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 				var ep = pickInfo.pickedPoint;
 
-				// console.log(" x sp " + sp.x + " " + sp.y + " " + sp.z);
 				var bp = 0;
 
 				var razlika = ep.subtract(sp);
@@ -135,7 +100,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		cube.rotate(rotationAxis, remAngle, presedCube);
 		setTimeout(() => {
 			cube.frot(vec, presedCube);
-		}, 5);
+		}, 30);
 		// cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
 		// console.log('mouse up ' + rotationAxis);
 	}
