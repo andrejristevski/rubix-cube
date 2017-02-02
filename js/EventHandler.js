@@ -9,8 +9,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var face = Faces.FRONT;
 	var rotationAxis = null;
 	var angleSoFar = 0;
-	var presedCube={};
-	
+	var presedCube = {};
+
 	function getDirection(p1, p2) {
 
 		if (p1.x < p2.x) {
@@ -47,20 +47,21 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			var bp = 0;
 			var pickedPoint = pickInfo.pickedPoint;
 			sp = new BABYLON.Vector3(pickedPoint.x, pickedPoint.y,
-					pickedPoint.z);
-			face = rotationUtils.getFace(pickedPoint);
+				pickedPoint.z);
+			// face = rotationUtils.getFace(pickedPoint);
+			face = RotationUtils.getFace(pickedPoint);
 
 			var bp = 0;
 			p1.x = evt.x;
 			p1.y = evt.y;
-			
-			presedCube.i=mesh.ci;
-			presedCube.j=mesh.cj;
-			presedCube.k=mesh.ck;
-			
-			
 
-			setTimeout(function() {
+			presedCube.i = mesh.ci;
+			presedCube.j = mesh.cj;
+			presedCube.k = mesh.ck;
+
+
+
+			setTimeout(function () {
 				camera.detachControl(canvas);
 			}, 0);
 		}
@@ -70,8 +71,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		isCubePressed = false;
 		camera.attachControl(canvas, true);
 		var bp = 0;
-		
-		var vec=new BABYLON.Vector3(rotationAxis.x, rotationAxis.y, rotationAxis.z);
+
+		var vec = new BABYLON.Vector3(rotationAxis.x, rotationAxis.y, rotationAxis.z);
 
 		finishRotation(vec);
 		rotationAxis = null;
@@ -85,7 +86,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// cubeMesh.rotate(rotationAxis, Math.PI / 100,
 			// BABYLON.Space.WORLD);
 			cube.rotate(rotationAxis, Math.PI / 100, presedCube);
-			
+
 			// console.log('mouse move ' + rotationAxis);
 			angleSoFar += Math.PI / 100;
 		}
@@ -93,8 +94,8 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		if (isCubePressed) {
 			isCubePressed = false;
 			var p2 = {
-				x : evt.x,
-				y : evt.y
+				x: evt.x,
+				y: evt.y
 			}
 
 			if (rotationAxis == null) {
@@ -108,9 +109,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 				var razlika = ep.subtract(sp);
 
-				var face = rotationUtils.getFace(ep);
+				var face = RotationUtils.getFace(ep);
 
-				var minDir = rotationUtils.getAxisDirection(razlika, face);
+				var minDir = RotationUtils.getAxisDirection(razlika, face);
 
 				// console.log(minDir);
 				// console.log("v*s " + minDir.scale(Math.PI / 2));
@@ -121,7 +122,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				}
 				angleSoFar += Math.PI / 100;
 				// console.log('angle so far ' + angleSoFar);
-				cube.rotate(minDir, Math.PI / 100 ,presedCube);
+				cube.rotate(minDir, Math.PI / 100, presedCube);
 				// cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
 
 			}
@@ -131,7 +132,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
-		cube.rotate(rotationAxis, remAngle ,presedCube);
+		cube.rotate(rotationAxis, remAngle, presedCube);
 		setTimeout(() => {
 			cube.frot(vec, presedCube);
 		}, 5);
@@ -144,50 +145,50 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 		// chrome
 		switch (evt.keyCode) {
-		case 82: // 'r'
-			cubeMesh.rotation.x = 0;
-			cubeMesh.rotation.y = 0;
-			cubeMesh.rotation.z = 0;
-			break;
-		case 67: // 'c'
-			camera.setTarget(BABYLON.Vector3.Zero());
-			camera.setPosition(new BABYLON.Vector3(14, 54, -82));
-			break;
-		case 'l': // 'E'
-			cube.rotateLayer();
-			break;
-		// z
-		case 90:
-			// cubeMesh.rotationQuaternion = zq;
-			cube.printMatrixes();
-			break;
-		// x
-		case 88:
-			cube.rot();
-			break;
-		// v
-		case 86:
-			cube.setWM();
-			break;
-		// s
-		case 83: // 'r'
-// cube.saveWM();
-			cubeMesh.rotation.x+=0.1;
-			break;
-		case 66: // b
-// cubeMesh.rotation.x += Math.PI / 2;
-			 cubeMesh.rotation.y += Math.PI / 2;
-// cubeMesh.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
-			cube.fja();
-			break;
-		case 77: // m
-			// cubeMesh.rotation.z += Math.PI / 2;
-			cubeMesh.rotate(BABYLON.Axis.Z, Math.PI / 2, BABYLON.Space.WORLD);
-			break;
-		case 78: // n
-			// cubeMesh.rotation.y += Math.PI / 2;
-			cubeMesh.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
-			break;
+			case 82: // 'r'
+				cubeMesh.rotation.x = 0;
+				cubeMesh.rotation.y = 0;
+				cubeMesh.rotation.z = 0;
+				break;
+			case 67: // 'c'
+				camera.setTarget(BABYLON.Vector3.Zero());
+				camera.setPosition(new BABYLON.Vector3(14, 54, -82));
+				break;
+			case 'l': // 'E'
+				cube.rotateLayer();
+				break;
+			// z
+			case 90:
+				// cubeMesh.rotationQuaternion = zq;
+				cube.printMatrixes();
+				break;
+			// x
+			case 88:
+				cube.rot();
+				break;
+			// v
+			case 86:
+				cube.setWM();
+				break;
+			// s
+			case 83: // 'r'
+				// cube.saveWM();
+				cubeMesh.rotation.x += 0.1;
+				break;
+			case 66: // b
+				// cubeMesh.rotation.x += Math.PI / 2;
+				cubeMesh.rotation.y += Math.PI / 2;
+				// cubeMesh.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
+				cube.fja();
+				break;
+			case 77: // m
+				// cubeMesh.rotation.z += Math.PI / 2;
+				cubeMesh.rotate(BABYLON.Axis.Z, Math.PI / 2, BABYLON.Space.WORLD);
+				break;
+			case 78: // n
+				// cubeMesh.rotation.y += Math.PI / 2;
+				cubeMesh.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
+				break;
 
 		}
 	}
@@ -197,7 +198,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	canvas.addEventListener("pointermove", onPointerMove, false);
 	window.addEventListener("keydown", onKeyDown);
 
-	scene.onDispose = function() {
+	scene.onDispose = function () {
 		canvas.removeEventListener("pointerdown", onPointerDown);
 		canvas.removeEventListener("pointerup", onPointerUp);
 		canvas.removeEventListener("pointermove", onPointerMove);

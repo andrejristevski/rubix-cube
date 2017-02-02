@@ -4,6 +4,10 @@ var init = function() {
 	var engine = new BABYLON.Engine(canvas, true);
 
 	var createScene = function() {
+		
+		var log = new Log();
+		
+		log.logmsg();
 
 		// EventHandler.rotateLayer();
 		// var eventHandler = new EventHandler();
@@ -25,7 +29,7 @@ var init = function() {
 		// reflect the light off the ground to light the mesh bottom
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
 		// TODO
-		var cube = new Cube(scene, 6, 5, 1);
+		var cube = new CubeClass(scene, 6, 5, 1);
 		var cubeMesh = cube.getControl();
 		// cube.position.x = 44;
 		// x = red
