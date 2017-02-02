@@ -25,7 +25,7 @@ var init = function() {
 		// reflect the light off the ground to light the mesh bottom
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
 		// TODO
-		var cube = new CubeClass(scene, 6, 5, 1);
+		var cube = new CubeClass(scene, 7, 5, 0.2);
 		var cubeMesh = cube.getControl();
 		// cube.position.x = 44;
 		// x = red

@@ -100,7 +100,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		cube.rotate(rotationAxis, remAngle, presedCube);
 		setTimeout(() => {
 			cube.frot(vec, presedCube);
-		}, 30);
+		}, 50);
 		// cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
 		// console.log('mouse up ' + rotationAxis);
 	}

@@ -28,6 +28,7 @@ class CubeClass {
     getControl() {
         return this.cube;
     }
+
     centerTheCubiclsAroundCube(n, partSize, offset) {
 
         // returns the center of the cube
@@ -48,7 +49,14 @@ class CubeClass {
             var cubix = cubicls[i];
             cubix.position = cubix.position.subtract(center);
 
-            var posVec = new BABYLON.Vector3(cubix.position.x, cubix.position.y, cubix.position.z);
+            // var posVec = new BABYLON.Vector3(cubix.position.x.toPrecision(8), cubix.position.y.toPrecision(8), cubix.position.z.toPrecision(8));
+            // var posVec = new BABYLON.Vector3(cubix.position.x, cubix.position.y, cubix.position.z);
+
+            var posVec = new BABYLON.Vector3(getRounded(cubix.position.x), getRounded(cubix.position.y), getRounded(cubix.position.z));
+
+
+            console.log('pos vector ' + posVec);
+
             var orderTriple = new BABYLON.Vector3(cubix.si, cubix.sj, cubix.sk);
 
             this.cubPosMap.set(posVec, orderTriple);
@@ -99,7 +107,6 @@ class CubeClass {
                         cubicl.position.z = k * (partSize + offset);
 
                         this.cubicls.push(cubicl);
-                        // this.wmMap.push((cubicl.getWorldMatrix()).clone());
                     }
                 }
             }
@@ -193,7 +200,7 @@ class CubeClass {
             this.activeCubicls = [];
             this.rFlag = true;
 
-                reorderCubicls(this.cubicls, this.cubPosMap);
+            reorderCubicls(this.cubicls, this.cubPosMap);
 
         }, 0);
 
@@ -208,7 +215,7 @@ function reorderCubicls(cubicls, cubPosMap) {
 
         var cubix = cubicls[i];
 
-        var pos = new BABYLON.Vector3(cubix.position.x, cubix.position.y, cubix.position.z)
+        var pos = new BABYLON.Vector3(getRounded(cubix.position.x), getRounded(cubix.position.y), getRounded(cubix.position.z))
 
         var order = getCubOrder(pos, cubPosMap);
 
@@ -231,8 +238,6 @@ function reorderCubicls(cubicls, cubPosMap) {
 }
 
 function getCubOrder(pos, posMap) {
-
-    // var order=posMap.get(pos);
 
     for (var [key, value] of posMap) {
 
@@ -270,22 +275,30 @@ function getCubeInfo(cub, wmMap) {
             return curInfo;
         }
     }
-
-
 }
+
 function getMeshInfoFromMatrix(cub) {
 
     var mat = cub.getWorldMatrix();
 
     var res = {};
 
-    res.x = mat.m[12];
-    res.y = mat.m[13];
-    res.z = mat.m[14];
+    res.x = getRounded(mat.m[12]);
+    res.y = getRounded(mat.m[13]);
+    res.z = getRounded(mat.m[14]);
+
+    console.log('12 ' + getRounded(mat.m[12]));
+    console.log('13 ' + getRounded(mat.m[13]));
+    console.log('14 ' + getRounded(mat.m[14]));
 
     res.ci = cub.ci;
     res.cj = cub.cj;
     res.ck = cub.ck;
 
     return res;
+}
+function getRounded(num, k) {
+
+    return Math.round(num * 100000) / 100000;
+
 }
