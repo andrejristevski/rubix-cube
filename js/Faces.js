@@ -8,3 +8,11 @@ var Faces = {
 	BOTTOM : 6, // -y
 
 }
+
+var Direction = {
+	UP : 1,
+	DOWN : 2,
+	LEFT : 3,
+	RIGHT : 4
+}
+

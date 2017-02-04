@@ -1,20 +1,15 @@
 class RotationUtils {
 
-
     constructor() {
-
     }
 
     static getFace(point) {
-        var xAxes = new BABYLON.Vector3(1, 0, 0);
-        var yAxes = new BABYLON.Vector3(0, 1, 0);
-        var zAxes = new BABYLON.Vector3(0, 0, 1);
 
         var np = point.normalize();
 
-        var px = Math.abs(BABYLON.Vector3.Dot(xAxes, np));
-        var py = Math.abs(BABYLON.Vector3.Dot(yAxes, np));
-        var pz = Math.abs(BABYLON.Vector3.Dot(zAxes, np));
+        var px = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.X, np));
+        var py = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.Y, np));
+        var pz = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.Z, np));
 
         var max = Math.max(px, py, pz);
         if (max == px) {
@@ -40,15 +35,12 @@ class RotationUtils {
         }
     }
     static getAxisDirection(point, face) {
-        var xAxes = new BABYLON.Vector3(1, 0, 0);
-        var yAxes = new BABYLON.Vector3(0, 1, 0);
-        var zAxes = new BABYLON.Vector3(0, 0, 1);
 
         var np = point.normalize();
 
-        var px = Math.abs(BABYLON.Vector3.Dot(xAxes, np));
-        var py = Math.abs(BABYLON.Vector3.Dot(yAxes, np));
-        var pz = Math.abs(BABYLON.Vector3.Dot(zAxes, np));
+        var px = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.X, np));
+        var py = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.Y, np));
+        var pz = Math.abs(BABYLON.Vector3.Dot(BABYLON.Axis.Z, np));
 
         var min = Math.min(px, py, pz);
         if (min == px) {
