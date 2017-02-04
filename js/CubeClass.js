@@ -6,6 +6,7 @@ class CubeClass {
         this.cube.isVisible = false;
 
         this.cubicls = [];
+        this.wmMap = [];
         this.scene = scene;
         this.n = n;
         this.partSize = partSize;
@@ -21,6 +22,7 @@ class CubeClass {
         this.centerTheCubiclsAroundCube(n, partSize, offset);
 
     }
+
 
     getControl() {
         return this.cube;
@@ -60,15 +62,45 @@ class CubeClass {
     }
 
     createCubix(scene, n, partSize, parent, offset) {
-
+        var t = true;
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < n; j++) {
                 for (var k = 0; k < n; k++) {
 
                     if (i == 0 || i == n - 1 || j == 0 || j == n - 1 || k == 0 || k == n - 1) {
+                        // t=false;
+                        var faceColors = [];
 
-                        let cubix = new Cubix(scene, n, partSize, parent, offset, i, j, k);
-                        this.cubicls.push(cubix);
+                        faceColors[0] = new BABYLON.Color3(1, 0, 0); // red
+                        faceColors[1] = new BABYLON.Color3(0, 1, 0); // green
+                        faceColors[2] = new BABYLON.Color3(0, 0, 1); // blue
+                        faceColors[3] = new BABYLON.Color3(0, 1, 1); // //svetlo sino
+                        // zeleno
+                        faceColors[4] = new BABYLON.Color3(1, 1, 0); // yellow
+                        faceColors[5] = new BABYLON.Color3(1, 0, 1); // rozeva
+
+                        var options = {
+                            width: partSize,
+                            height: partSize,
+                            depth: partSize,
+                            faceColors: faceColors
+                        };
+                        var cubicl = BABYLON.MeshBuilder.CreateBox("cubcl" + i + j + k,
+                            options, scene);
+
+                        cubicl.si = i;
+                        cubicl.sj = j;
+                        cubicl.sk = k;
+
+                        cubicl.ci = i;
+                        cubicl.cj = j;
+                        cubicl.ck = k;
+
+                        cubicl.position.x = i * (partSize + offset);
+                        cubicl.position.y = j * (partSize + offset);
+                        cubicl.position.z = k * (partSize + offset);
+
+                        this.cubicls.push(cubicl);
                     }
                 }
             }
@@ -77,6 +109,7 @@ class CubeClass {
 
     addParentToAllCubesThetWillRotate(axis, curCub) {
 
+        var wmMap = this.wmMap;
 
         for (var i = 0; i < this.cubicls.length; i++) {
 
@@ -84,17 +117,21 @@ class CubeClass {
 
 
             if ((axis.equals(BABYLON.Axis.X.negate()) || axis.equals(BABYLON.Axis.X)) && cub.ci == curCub.i) {
+
                 cub.parent = this.cube;
                 this.activeCubicls.push(cub);
+                cub.isActive = true;
 
             } else if ((axis.equals(BABYLON.Axis.Y.negate()) || axis.equals(BABYLON.Axis.Y)) && cub.cj == curCub.j) {
 
+                cub.isActive = true;
                 cub.parent = this.cube;
                 this.activeCubicls.push(cub);
 
 
             } else if ((axis.equals(BABYLON.Axis.Z.negate()) || axis.equals(BABYLON.Axis.Z)) && cub.ck == curCub.k) {
 
+                cub.isActive = true;
                 cub.parent = this.cube;
                 this.activeCubicls.push(cub);
             }
@@ -122,13 +159,15 @@ class CubeClass {
             var cub = this.activeCubicls[i];
             cub.parent = null;
 
-            cub.rotate(rotationAxis);
+            this.positionCubix(cub, rotationAxis);
 
             let {x, y, z} = getMapElement(cub.prevPosition.x, cub.prevPosition.y, cub.prevPosition.z, this.revCubPosMap);
 
             cub.ci = x;
             cub.cj = y;
             cub.ck = z;
+
+            cub.rotate(rotationAxis, Math.PI / 2, BABYLON.Space.WORLD);
 
         }
 
@@ -138,6 +177,24 @@ class CubeClass {
 
     }
 
+    positionCubix(cubix, axis) {
+
+        let mat = RotationUtils.getRotationMatrix(axis);
+
+        var prevPos = cubix.prevPosition;
+
+        let xcal = prevPos.x * mat[0][0] + prevPos.y * mat[0][1] + prevPos.z * mat[0][2];
+        let ycal = prevPos.x * mat[1][0] + prevPos.y * mat[1][1] + prevPos.z * mat[1][2];
+        let zcal = prevPos.x * mat[2][0] + prevPos.y * mat[2][1] + prevPos.z * mat[2][2];
+
+        var newPos = new BABYLON.Vector3(getRounded(xcal), getRounded(ycal), getRounded(zcal));
+        cubix.prevPosition = newPos;
+
+        cubix.position.x = newPos.x;
+        cubix.position.y = newPos.y;
+        cubix.position.z = newPos.z;
+
+    }
 }
 
 //Utils functions TODO: find better place for them
@@ -159,3 +216,4 @@ function getRounded(num, k) {
     return Math.round(num * 100000) / 100000;
 
 }
+
