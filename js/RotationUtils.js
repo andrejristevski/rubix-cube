@@ -185,26 +185,4 @@ class RotationUtils {
         return mat;
     }
 
-    staticgetCubixOrder(cubix, axis, map) {
-
-        let mat = RotationUtils.getRotationMatrix(axis);
-
-        var prevPos = cubix.prevPosition;
-
-        xcal = prevPos.x * mat[0][0] + prevPos.y * mat[0][1] + prevPos.z * mat[0][2];
-        ycal = prevPos.x * mat[1][0] + prevPos.y * mat[1][1] + prevPos.z * mat[1][2];
-        zcal = prevPos.x * mat[2][0] + prevPos.y * mat[2][1] + prevPos.z * mat[2][2];
-
-        var newPos = new BABYLON.Vector3(getRounded(xcal), getRounded(ycal), getRounded(zcal));
-        cubix.prevPosition = newPos;
-
-        // let {x, y, z} = getMapElement(newPos.x, newPos.y, newPos.z, map);
-
-        return {
-            x: newPos.x,
-            y: newPos.y,
-            z: newPos.z
-        }
-    }
-
 }

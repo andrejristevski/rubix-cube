@@ -2,15 +2,10 @@ class CubeClass {
 
     constructor(scene, n, partSize, offset) {
 
-        function isThisGlobal() {
-            conso.log("func called");
-        }
-
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, scene);
         this.cube.isVisible = false;
 
         this.cubicls = [];
-        this.wmMap = [];
         this.scene = scene;
         this.n = n;
         this.partSize = partSize;
@@ -26,7 +21,6 @@ class CubeClass {
         this.centerTheCubiclsAroundCube(n, partSize, offset);
 
     }
-
 
     getControl() {
         return this.cube;
@@ -66,13 +60,13 @@ class CubeClass {
     }
 
     createCubix(scene, n, partSize, parent, offset) {
-        var t = true;
+
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < n; j++) {
                 for (var k = 0; k < n; k++) {
 
                     if (i == 0 || i == n - 1 || j == 0 || j == n - 1 || k == 0 || k == n - 1) {
-                        // t=false;
+                        
                         var faceColors = [];
 
                         faceColors[0] = new BABYLON.Color3(1, 0, 0); // red
@@ -91,8 +85,6 @@ class CubeClass {
                         };
                         var cubicl = BABYLON.MeshBuilder.CreateBox("cubcl" + i + j + k,
                             options, scene);
-                        // var cubicl = new BABYLON.Mesh.CreateBox("cubcl" + i + j + k,
-                        // options, scene);
 
                         cubicl.si = i;
                         cubicl.sj = j;
@@ -115,7 +107,6 @@ class CubeClass {
 
     addParentToAllCubesThetWillRotate(axis, curCub) {
 
-        var wmMap = this.wmMap;
 
         for (var i = 0; i < this.cubicls.length; i++) {
 
