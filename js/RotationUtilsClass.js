@@ -156,4 +156,55 @@ class RotationUtils {
 
     }
 
+    static getRotationMatrix(axis) {
+
+        let rotX = [[1, 0, 0], [0, 0, -1], [0, 1, 0]];
+        let rotY = [[0, 0, 1], [0, 1, 0], [-1, 0, 0]];
+        let rotZ = [[0, -1, 0], [1, 0, 0], [0, 0, 1]];
+
+        let negativeRotX = [[1, 0, 0], [0, 0, 1], [0, -1, 0]];
+        let negativeRotY = [[0, 0, -1], [0, 1, 0], [1, 0, 0]];
+        let negativeRotZ = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
+
+        let mat = null;
+
+        if (axis.equals(BABYLON.Axis.Z.negate())) {
+            mat = negativeRotZ;
+        } else if (axis.equals(BABYLON.Axis.Z)) {
+            mat = rotZ;
+        } else if (axis.equals(BABYLON.Axis.X.negate())) {
+            mat = negativeRotX;
+        } else if (axis.equals(BABYLON.Axis.X)) {
+            mat = rotX;
+        } else if (axis.equals(BABYLON.Axis.Y.negate())) {
+            mat = negativeRotY;
+        } else if (axis.equals(BABYLON.Axis.Y)) {
+            mat = rotY;
+        }
+
+        return mat;
+    }
+
+    staticgetCubixOrder(cubix, axis, map) {
+
+        let mat = RotationUtils.getRotationMatrix(axis);
+
+        var prevPos = cubix.prevPosition;
+
+        xcal = prevPos.x * mat[0][0] + prevPos.y * mat[0][1] + prevPos.z * mat[0][2];
+        ycal = prevPos.x * mat[1][0] + prevPos.y * mat[1][1] + prevPos.z * mat[1][2];
+        zcal = prevPos.x * mat[2][0] + prevPos.y * mat[2][1] + prevPos.z * mat[2][2];
+
+        var newPos = new BABYLON.Vector3(getRounded(xcal), getRounded(ycal), getRounded(zcal));
+        cubix.prevPosition = newPos;
+
+        // let {x, y, z} = getMapElement(newPos.x, newPos.y, newPos.z, map);
+
+        return {
+            x: newPos.x,
+            y: newPos.y,
+            z: newPos.z
+        }
+    }
+
 }

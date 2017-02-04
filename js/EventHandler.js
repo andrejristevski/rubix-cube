@@ -97,10 +97,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
-		// cube.rotate(rotationAxis, remAngle, presedCube);
-		cube.frot(rotationAxis, remAngle, presedCube);
-		// cubeMesh.rotate(rotationAxis, remAngle, BABYLON.Space.WORLD);
-		// console.log('mouse up ' + rotationAxis);
+		cube.finishRotation(rotationAxis, remAngle, presedCube);
 	}
 
 	function onKeyDown(evt) {

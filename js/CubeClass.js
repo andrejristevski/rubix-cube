@@ -2,6 +2,10 @@ class CubeClass {
 
     constructor(scene, n, partSize, offset) {
 
+        function isThisGlobal() {
+            conso.log("func called");
+        }
+
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, scene);
         this.cube.isVisible = false;
 
@@ -12,9 +16,8 @@ class CubeClass {
         this.partSize = partSize;
 
         this.activeCubicls = [];
-        this.rFlag = true;
+        this.shouldAssignCubixToParent = true;
 
-        // what pos coresponds to what x ,y ,z position
         this.cubPosMap = new Map();
         this.revCubPosMap = new Map();
 
@@ -49,14 +52,9 @@ class CubeClass {
             var cubix = cubicls[i];
             cubix.position = cubix.position.subtract(center);
 
-
-            // var posVec = new BABYLON.Vector3(cubix.position.x.toPrecision(8), cubix.position.y.toPrecision(8), cubix.position.z.toPrecision(8));
-            // var posVec = new BABYLON.Vector3(cubix.position.x, cubix.position.y, cubix.position.z);
-
             var posVec = new BABYLON.Vector3(getRounded(cubix.position.x), getRounded(cubix.position.y), getRounded(cubix.position.z));
 
             cubix.prevPosition = posVec.clone();
-            console.log('order ' + orderTriple);
 
             var orderTriple = new BABYLON.Vector3(cubix.si, cubix.sj, cubix.sk);
 
@@ -115,10 +113,7 @@ class CubeClass {
         }
     }
 
-    parentazai(rotationAxis, curCub) {
-
-        var imAxis = getImportantCoordinate(rotationAxis);
-
+    addParentToAllCubesThetWillRotate(axis, curCub) {
 
         var wmMap = this.wmMap;
 
@@ -127,20 +122,20 @@ class CubeClass {
             var cub = this.cubicls[i];
 
 
-            if (imAxis == 'x' && cub.ci == curCub.i) {
+            if ((axis.equals(BABYLON.Axis.X.negate()) || axis.equals(BABYLON.Axis.X)) && cub.ci == curCub.i) {
 
                 cub.parent = this.cube;
                 this.activeCubicls.push(cub);
                 cub.isActive = true;
 
-            } else if (imAxis == 'y' && cub.cj == curCub.j) {
+            } else if ((axis.equals(BABYLON.Axis.Y.negate()) || axis.equals(BABYLON.Axis.Y)) && cub.cj == curCub.j) {
 
                 cub.isActive = true;
                 cub.parent = this.cube;
                 this.activeCubicls.push(cub);
 
 
-            } else if (imAxis == 'z' && cub.ck == curCub.k) {
+            } else if ((axis.equals(BABYLON.Axis.Z.negate()) || axis.equals(BABYLON.Axis.Z)) && cub.ck == curCub.k) {
 
                 cub.isActive = true;
                 cub.parent = this.cube;
@@ -153,66 +148,62 @@ class CubeClass {
     rotate(rotationAxis, angle, curCub) {
 
 
-        if (this.rFlag) {
-            this.parentazai(rotationAxis, curCub);
-            this.rFlag = false;
+        if (this.shouldAssignCubixToParent) {
+            this.addParentToAllCubesThetWillRotate(rotationAxis, curCub);
+            this.shouldAssignCubixToParent = false;
         }
 
         this.cube.rotate(rotationAxis, angle, BABYLON.Space.WORLD);
     }
 
 
-    frot(rotationAxis, remAngle) {
+    finishRotation(rotationAxis, remAngle) {
+
 
         for (var i = 0; i < this.activeCubicls.length; i++) {
 
             var cub = this.activeCubicls[i];
             cub.parent = null;
 
-            let {ci, cj, ck} = getCs(cub, rotationAxis, this.revCubPosMap);
+            this.positionCubix(cub, rotationAxis);
 
-            cub.ci = ci;
-            cub.cj = cj;
-            cub.ck = ck;
+            let {x, y, z} = getMapElement(cub.prevPosition.x, cub.prevPosition.y, cub.prevPosition.z, this.revCubPosMap);
 
-
-            let {xPosition, yPosition, zPosition} = getCorespondingPosition(ci, cj, ck, this.cubPosMap);
-
-            cub.position.x = xPosition;
-            cub.position.y = yPosition;
-            cub.position.z = zPosition;
+            cub.ci = x;
+            cub.cj = y;
+            cub.ck = z;
 
             cub.rotate(rotationAxis, Math.PI / 2, BABYLON.Space.WORLD);
 
         }
 
         this.activeCubicls = [];
-        this.rFlag = true;
+        this.shouldAssignCubixToParent = true;
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 
+    }
+
+    positionCubix(cubix, axis) {
+
+        let mat = RotationUtils.getRotationMatrix(axis);
+
+        var prevPos = cubix.prevPosition;
+
+        let xcal = prevPos.x * mat[0][0] + prevPos.y * mat[0][1] + prevPos.z * mat[0][2];
+        let ycal = prevPos.x * mat[1][0] + prevPos.y * mat[1][1] + prevPos.z * mat[1][2];
+        let zcal = prevPos.x * mat[2][0] + prevPos.y * mat[2][1] + prevPos.z * mat[2][2];
+
+        var newPos = new BABYLON.Vector3(getRounded(xcal), getRounded(ycal), getRounded(zcal));
+        cubix.prevPosition = newPos;
+
+        cubix.position.x = newPos.x;
+        cubix.position.y = newPos.y;
+        cubix.position.z = newPos.z;
 
     }
 }
 
-function getCorespondingPosition(ci, cj, ck, posMap) {
-    for (var [key, value] of posMap) {
-
-        if (key.x == ci && key.y == cj && key.z == ck) {
-            return {
-                xPosition: value.x,
-                yPosition: value.y,
-                zPosition: value.z
-            }
-        }
-    }
-    var bp = 0;
-    // return {
-    //     xPosition: 0,
-    //     yPosition: 0,
-    //     zPosition: 0
-    // }
-}
-
+//Utils functions TODO: find better place for them
 function getMapElement(x, y, z, map) {
     for (var [key, value] of map) {
 
@@ -226,71 +217,9 @@ function getMapElement(x, y, z, map) {
     }
 }
 
-
-function getImportantCoordinate(axis) {
-
-    if (axis.equals(BABYLON.Axis.Z.negate()) || axis.equals(BABYLON.Axis.Z)) {
-        return 'z';
-    } else if (axis.equals(BABYLON.Axis.X.negate()) || axis.equals(BABYLON.Axis.X)) {
-        return 'x';
-    } else if (axis.equals(BABYLON.Axis.Y.negate()) || axis.equals(BABYLON.Axis.Y)) {
-        return 'y';
-    }
-
-
-}
-
 function getRounded(num, k) {
 
     return Math.round(num * 100000) / 100000;
 
 }
 
-function getCs(cubix, axis, map) {
-
-
-    rotX = [[1, 0, 0], [0, 0, -1], [0, 1, 0]];
-    rotY = [[0, 0, 1], [0, 1, 0], [-1, 0, 0]];
-    rotZ = [[0, -1, 0], [1, 0, 0], [0, 0, 1]];
-
-    mrotX = [[1, 0, 0], [0, 0, 1], [0, -1, 0]];
-    mrotY = [[0, 0, -1], [0, 1, 0], [1, 0, 0]];
-    mrotZ = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
-
-    let mat = null;
-
-    if (axis.equals(BABYLON.Axis.Z.negate())) {
-        mat = mrotZ;
-    } else if (axis.equals(BABYLON.Axis.Z)) {
-        mat = rotZ;
-    } else if (axis.equals(BABYLON.Axis.X.negate())) {
-        mat = mrotX;
-    } else if (axis.equals(BABYLON.Axis.X)) {
-        mat = rotX;
-    } else if (axis.equals(BABYLON.Axis.Y.negate())) {
-        mat = mrotY;
-    } else if (axis.equals(BABYLON.Axis.Y)) {
-        mat = rotY;
-    }
-
-    // ci = cubix.ci * mat[0][0] + cubix.cj * mat[0][1] + cubix.ck * mat[0][2];
-    // cj = cubix.ci * mat[1][0] + cubix.cj * mat[1][1] + cubix.ck * mat[1][2];
-    // ck = cubix.ci * mat[2][0] + cubix.cj * mat[2][1] + cubix.ck * mat[2][2];
-
-    var prevPos = cubix.prevPosition;
-
-    xcal = prevPos.x * mat[0][0] + prevPos.y * mat[0][1] + prevPos.z * mat[0][2];
-    ycal = prevPos.x * mat[1][0] + prevPos.y * mat[1][1] + prevPos.z * mat[1][2];
-    zcal = prevPos.x * mat[2][0] + prevPos.y * mat[2][1] + prevPos.z * mat[2][2];
-
-    var newPos = new BABYLON.Vector3(getRounded(xcal), getRounded(ycal), getRounded(zcal));
-    cubix.prevPosition = newPos;
-
-    let {x, y, z} = getMapElement(newPos.x, newPos.y, newPos.z, map);
-    
-    return {
-        ci: x,
-        cj: y,
-        ck: z
-    }
-}
