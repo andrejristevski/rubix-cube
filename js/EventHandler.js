@@ -4,11 +4,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	var canRotate = true;
 	var isCubePressed = false;
-	var firstClick = null;
 	var face = Faces.FRONT;
 	var rotationAxis = null;
 	var angleSoFar = 0;
-	var presedCube = {};
+	var presedCubix = {};
 
 	function onPointerDown(evt) {
 
@@ -25,9 +24,9 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// face = rotationUtils.getFace(pickedPoint);
 			face = RotationUtils.getFace(pickedPoint);
 
-			presedCube.i = mesh.ci;
-			presedCube.j = mesh.cj;
-			presedCube.k = mesh.ck;
+			presedCubix.i = mesh.ci;
+			presedCubix.j = mesh.cj;
+			presedCubix.k = mesh.ck;
 
 
 
@@ -48,16 +47,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		rotationAxis = null;
 		angleSoFar = 0;
 	}
-	// TODO
 	function onPointerMove(evt) {
-		var bp = 0;
 
 		if (rotationAxis != null) {
-			// cubeMesh.rotate(rotationAxis, Math.PI / 100,
-			// BABYLON.Space.WORLD);
-			cube.rotate(rotationAxis, Math.PI / 100, presedCube);
-
-			// console.log('mouse move ' + rotationAxis);
+			cube.rotate(rotationAxis, Math.PI / 100, presedCubix);
 			angleSoFar += Math.PI / 100;
 		}
 
@@ -78,17 +71,13 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 				var minDir = RotationUtils.getAxisDirection(razlika, face);
 
-				// console.log(minDir);
-				// console.log("v*s " + minDir.scale(Math.PI / 2));
 
 				var rot = minDir.scale(Math.PI / 2);
 				if (rotationAxis == null) {
 					rotationAxis = minDir;
 				}
 				angleSoFar += Math.PI / 100;
-				// console.log('angle so far ' + angleSoFar);
-				cube.rotate(minDir, Math.PI / 100, presedCube);
-				// cubeMesh.rotate(minDir, Math.PI / 100, BABYLON.Space.WORLD);
+				cube.rotate(minDir, Math.PI / 100, presedCubix);
 
 			}
 
@@ -97,7 +86,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
-		cube.finishRotation(rotationAxis, remAngle, presedCube);
+		cube.finishRotation(rotationAxis, remAngle, presedCubix);
 	}
 
 	function onKeyDown(evt) {
