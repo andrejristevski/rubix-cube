@@ -5,14 +5,9 @@ var init = function () {
 
 	var createScene = function () {
 
-		// EventHandler.rotateLayer();
-		// var eventHandler = new EventHandler();
-		// eventHandler.rotateLayer();
 
 		var scene = new BABYLON.Scene(engine);
 		scene.clearColor = BABYLON.Color3.FromInts(149, 165, 166);
-		// This creates and positions a free camera (non-mesh)
-		// var camPosition = new BABYLON.Vector3(0, 2, 10);
 
 		var camera = new BABYLON.ArcRotateCamera("camera", -1.40, 1, 100,
 			BABYLON.Vector3.Zero(), scene);
