@@ -42,10 +42,10 @@ html, body {
 }
 
 #canvasDiv {
-	background-color :brown;
 	width: 100%;
 	height: 100%;
 }
+
 
 #controls {
 	width : 300px;
@@ -63,6 +63,12 @@ html, body {
     height: 10px;
 }
 
+#dugme{
+	position :absolute;
+	right :0;
+	top :0;
+}
+
 </style>
 </head>
 
@@ -70,19 +76,23 @@ html, body {
 	<div id="container">
 		<div id="canvasDiv">
 			<canvas id="renderCanvas"></canvas>
-			<p>nekoj paragraf</p>
-		</div>
-		<div id="controls">
-
-			<button onclick="hide()">dugme</button>
-<p>nekoj paragraf</p>
+			<button id="dugme" onclick="hide()">dugme</button>
+</div>
+<div id="controls">
+	<p>nekoj paragraf</p>
 </div>
 </div>
 <script>
 	function hide() {
-		// document.getElementById('controls').style.visibility = "hidden";
-		document.getElementById('controls').style.width = '1px';
-		document.getElementById('controls').style.hight = '1px';
+		var controlsDiv = document.getElementById('controls');
+		if (controlsDiv.style.width == '300px' || controlsDiv.style.width == "") {
+			controlsDiv.style.width = '1px';
+		} else {
+			controlsDiv.style.width = '300px';
+		}
+		var event = new Event('resize');
+
+		window.dispatchEvent(event);
 	}
 	init();
 </script>

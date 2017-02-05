@@ -21,10 +21,8 @@ var init = function () {
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
 		// TODO
 		var cube = new CubeClass(scene, 6, 6, 0.3);
-		// cube.position.x = 44;
-		// x = red
-		// y = green
-		// z = blue
+
+
 		camera.attachControl(canvas, true);
 		var showAxis = function (size) {
 			var axisX = BABYLON.Mesh.CreateLines("axisX",
@@ -67,6 +65,10 @@ var init = function () {
 	// Resize
 	window.addEventListener("resize", function () {
 		engine.resize();
+	});
+
+	window.addEventListener('asd', function () {
+		alert('fuck you)');
 	});
 
 };
