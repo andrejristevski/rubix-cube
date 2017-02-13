@@ -40,8 +40,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		isCubePressed = false;
 		camera.attachControl(canvas, true);
 		var bp = 0;
+		if (rotationAxis) {
 
-		var vec = new BABYLON.Vector3(rotationAxis.x, rotationAxis.y, rotationAxis.z);
+			var vec = new BABYLON.Vector3(rotationAxis.x, rotationAxis.y, rotationAxis.z);
+		}
 
 		finishRotation(vec);
 		rotationAxis = null;
@@ -91,6 +93,11 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 
 	function onKeyDown(evt) {
 		var currentEnding = -1;
+
+		var evtobj = window.event ? event : evt
+		if (evtobj.keyCode == 90 && evtobj.ctrlKey) {
+			alert("Ctrl+z");
+		}
 
 		// chrome
 		switch (evt.keyCode) {

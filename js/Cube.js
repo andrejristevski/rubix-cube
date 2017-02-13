@@ -136,6 +136,7 @@ class CubeClass {
         this.shouldAssignCubixToParent = true;
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 
+
     }
 
 }
