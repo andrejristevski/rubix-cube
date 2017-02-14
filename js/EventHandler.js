@@ -9,6 +9,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var angleSoFar = 0;
 	var presedCubix = {};
 
+	var states = [];
+	states.push(cube.saveState());
+	var statePosition = 0;
+
 	function onPointerDown(evt) {
 
 		var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
@@ -94,18 +98,23 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	function onKeyDown(evt) {
 		var currentEnding = -1;
 
-		var evtobj = window.event ? event : evt
-		if (evtobj.keyCode == 90 && evtobj.ctrlKey) {
-			alert("Ctrl+z");
+		var e = window.event ? event : evt
+		if (e.keyCode == 90 && e.ctrlKey) {
+			states.push(cube.saveState());
+			let breakpoint = 0;
+		}
+		if (e.keyCode == 88 && e.ctrlKey) {
+			cube.setState(states[statePosition]);
+			let breakpoint = 0;
 		}
 
 		// chrome
 		switch (evt.keyCode) {
-			case 82: // 'r'
-				cubeMesh.rotation.x = 0;
-				cubeMesh.rotation.y = 0;
-				cubeMesh.rotation.z = 0;
-				break;
+			// case 82: // 'r'
+			// 	cubeMesh.rotation.x = 0;
+			// 	cubeMesh.rotation.y = 0;
+			// 	cubeMesh.rotation.z = 0;
+			// 	break;
 			case 67: // 'c'
 				camera.setTarget(BABYLON.Vector3.Zero());
 				camera.setPosition(new BABYLON.Vector3(14, 54, -82));
@@ -114,23 +123,22 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 				cube.rotateLayer();
 				break;
 			// z
-			case 90:
-				// cubeMesh.rotationQuaternion = zq;
-				cube.printMatrixes();
-				break;
+			// case 90:
+
+			// 	break;
 			// x
-			case 88:
-				cube.rot();
-				break;
+			// case 88:
+			// 	cube.rot();
+			// 	break;
 			// v
 			case 86:
 				cube.setWM();
 				break;
 			// s
-			case 83: // 'r'
-				// cube.saveWM();
-				cubeMesh.rotation.x += 0.1;
-				break;
+			// case 83: // 'r'
+			// 	// cube.saveWM();
+			// 	// cubeMesh.rotation.x += 0.1;
+			// 	break;
 			case 66: // b
 				// cubeMesh.rotation.x += Math.PI / 2;
 				cubeMesh.rotation.y += Math.PI / 2;

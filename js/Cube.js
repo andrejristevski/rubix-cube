@@ -136,6 +136,52 @@ class CubeClass {
         this.shouldAssignCubixToParent = true;
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 
+    }
+
+    saveState() {
+        console.log('state saved');
+        return new Memento(this.cubicls);
+    }
+
+    setState(memento) {
+        console.log('state set');
+
+        let cubixInfos = memento.getState();
+
+        for (var i = 0; i < this.cubicls.length; i++) {
+            let cubix = this.cubicls[i];
+            // let info = cubixInfos[i];
+
+            cubixInfos.forEach(function (info) {
+                if (cubix.si === info.ci && cubix.sj === info.sj && cubix.sk === info.sk) {
+                    
+                    cubix.ci = info.ci;
+                    cubix.cj = info.cj;
+                    cubix.ck = info.ck;
+
+
+                    cubix.position = info.position.clone();
+                    cubix.rotation = info.rotation.clone();
+                }
+            });
+
+            // cubix.ci = info.ci;
+            // cubix.cj = info.cj;
+            // cubix.ck = info.ck;
+
+            // //TODO: this is not needed
+            // /**
+            //  * Find the cubix with that starting position and set its state and position
+            //  */
+            // cubix.si = info.si;
+            // cubix.sj = info.sj;
+            // cubix.sk = info.sk;
+
+            // cubix.position = info.position.clone();
+            // cubix.rotation = info.rotation.clone();
+
+            let breakpoint = 0;
+        }
 
     }
 
@@ -158,5 +204,9 @@ function getMapElement(x, y, z, map) {
 function getRounded(num, k) {
 
     return Math.round(num * 100000) / 100000;
+
+}
+
+function fdeName(arguments) {
 
 }
