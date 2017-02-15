@@ -30,9 +30,6 @@ class Memento {
         rotation = rotation.clone();
         prevPosition = prevPosition.clone();
 
-        console.log('rot ' +rotation);
-        
-
         let res = {
             ci: ci,
             cj: cj,

@@ -160,7 +160,6 @@ class CubeClass {
         for (var i = 0; i < this.cubicls.length; i++) {
             let cubix = this.cubicls[i];
 
-
             cubixInfos.forEach((info) => {
                 if (cubix.si === info.si && cubix.sj === info.sj && cubix.sk === info.sk) {
 
@@ -169,21 +168,15 @@ class CubeClass {
                     cubix.cj = info.cj;
                     cubix.ck = info.ck;
 
-
                     cubix.position = info.position.clone();
                     cubix.rotation = info.rotation.clone();
                     cubix.prevPosition = info.prevPosition.clone();
-                    // cubix.position.x = 5;
-                    // cubix.position.y = 4;
-                    // cubix.position.z = 7;
                 }
             });
-
 
             let breakpoint = 0;
         }
 
-        console.log('counter ' + counter);
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
     }
 
