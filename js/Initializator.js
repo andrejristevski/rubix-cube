@@ -20,7 +20,7 @@ var init = function () {
 		// reflect the light off the ground to light the mesh bottom
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
 		// TODO
-		var cube = new CubeClass(scene, 8, 6, 0.3);
+		var cube = new CubeClass(scene, 3, 6, 0.3);
 
 
 		camera.attachControl(canvas, true);
@@ -65,10 +65,6 @@ var init = function () {
 	// Resize
 	window.addEventListener("resize", function () {
 		engine.resize();
-	});
-
-	window.addEventListener('asd', function () {
-		alert('fuck you)');
 	});
 
 };

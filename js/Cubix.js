@@ -126,6 +126,7 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         this.cubicl.position.y = newPos.y;
         this.cubicl.position.z = newPos.z;
         this.cubicl.rotate(axis, Math.PI / 2, BABYLON.Space.WORLD);
+        let breakpoint=0; 	
 
     }
 

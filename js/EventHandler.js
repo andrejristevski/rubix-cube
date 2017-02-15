@@ -98,13 +98,18 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	function onKeyDown(evt) {
 		var currentEnding = -1;
 
+
+		//z
 		var e = window.event ? event : evt
 		if (e.keyCode == 90 && e.ctrlKey) {
-			states.push(cube.saveState());
+			cube.setState(states[statePosition]);
+
 			let breakpoint = 0;
 		}
-		if (e.keyCode == 88 && e.ctrlKey) {
-			cube.setState(states[statePosition]);
+		//c
+		if (e.keyCode == 67 && e.ctrlKey) {
+			states.push(cube.saveState());
+			statePosition++;
 			let breakpoint = 0;
 		}
 
@@ -115,10 +120,10 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// 	cubeMesh.rotation.y = 0;
 			// 	cubeMesh.rotation.z = 0;
 			// 	break;
-			case 67: // 'c'
-				camera.setTarget(BABYLON.Vector3.Zero());
-				camera.setPosition(new BABYLON.Vector3(14, 54, -82));
-				break;
+			// case 67: // 'c'
+			// 	camera.setTarget(BABYLON.Vector3.Zero());
+			// 	camera.setPosition(new BABYLON.Vector3(14, 54, -82));
+			// 	break;
 			case 'l': // 'E'
 				cube.rotateLayer();
 				break;
