@@ -49,6 +49,13 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         configurable: true
     });
 
+    Object.defineProperty(this, 'rotation', {
+        get: function () { return cubicl.rotation; },
+        set: function (newValue) { this.cubicl.rotation = newValue; },
+        enumerable: true,
+        configurable: true
+    });
+
     Object.defineProperty(this, 'ci', {
         get: function () { return this.cubicl.ci; },
         set: function (newValue) { this.cubicl.ci = newValue; },
@@ -90,6 +97,13 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         configurable: true
     });
 
+    Object.defineProperty(this, 'mesh', {
+        get: function () { return this.cubicl; },
+        set: function (newValue) { this.cubicl = newValue; },
+        enumerable: true,
+        configurable: true
+    });
+
 
     ///////////////////// private functions
 
@@ -112,11 +126,8 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         this.cubicl.position.y = newPos.y;
         this.cubicl.position.z = newPos.z;
         this.cubicl.rotate(axis, Math.PI / 2, BABYLON.Space.WORLD);
+        let breakpoint=0; 	
 
-    }
-
-    this.getMesh = function () {
-        return this.cubicl;
     }
 
 }

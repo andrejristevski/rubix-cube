@@ -5,14 +5,9 @@ var init = function () {
 
 	var createScene = function () {
 
-		// EventHandler.rotateLayer();
-		// var eventHandler = new EventHandler();
-		// eventHandler.rotateLayer();
 
 		var scene = new BABYLON.Scene(engine);
 		scene.clearColor = BABYLON.Color3.FromInts(149, 165, 166);
-		// This creates and positions a free camera (non-mesh)
-		// var camPosition = new BABYLON.Vector3(0, 2, 10);
 
 		var camera = new BABYLON.ArcRotateCamera("camera", -1.40, 1, 100,
 			BABYLON.Vector3.Zero(), scene);
@@ -24,12 +19,7 @@ var init = function () {
 			1, 0), scene);
 		// reflect the light off the ground to light the mesh bottom
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
-		// TODO
-		var cube = new CubeClass(scene, 6, 6, 0.3);
-		// cube.position.x = 44;
-		// x = red
-		// y = green
-		// z = blue
+
 		camera.attachControl(canvas, true);
 		var showAxis = function (size) {
 			var axisX = BABYLON.Mesh.CreateLines("axisX",
@@ -54,9 +44,11 @@ var init = function () {
 		// Default intensity is 1. Let's dim the light a small amount
 		light.intensity = 0.7;
 
+		var cube = new CubeClass(scene, 3, 6, 0.3);
+		var caretaker = new CubeCaretaker(cube);
 		var rotationUtils = new RotationUtils();
 		var eventHandler = new EventHandler(canvas, window, cube, scene,
-			camera, rotationUtils);
+			camera, rotationUtils, caretaker);
 
 		return scene;
 

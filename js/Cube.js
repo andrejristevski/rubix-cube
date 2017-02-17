@@ -124,6 +124,14 @@ class CubeClass {
 
             cub.rotate(rotationAxis);
 
+            let rot = cub.mesh.rotationQuaternion.toEulerAngles();
+            cub.mesh.rotationQuaternion = undefined;
+
+            cub.mesh.rotation.x = rot.x;
+            cub.mesh.rotation.y = rot.y;
+            cub.mesh.rotation.z = rot.z;
+
+
             let {x, y, z} = getMapElement(cub.prevPosition.x, cub.prevPosition.y, cub.prevPosition.z, this.revCubPosMap);
 
             cub.ci = x;
@@ -136,6 +144,38 @@ class CubeClass {
         this.shouldAssignCubixToParent = true;
         this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
 
+    }
+
+    saveState() {
+        return new Memento(this.cubicls);
+    }
+
+    setState(memento) {
+
+        let cubixInfos = memento.getState();
+        let counter = 0;
+
+        for (var i = 0; i < this.cubicls.length; i++) {
+            let cubix = this.cubicls[i];
+
+            cubixInfos.forEach((info) => {
+                if (cubix.si === info.si && cubix.sj === info.sj && cubix.sk === info.sk) {
+
+                    counter++;
+                    cubix.ci = info.ci;
+                    cubix.cj = info.cj;
+                    cubix.ck = info.ck;
+
+                    cubix.position = info.position.clone();
+                    cubix.rotation = info.rotation.clone();
+                    cubix.prevPosition = info.prevPosition.clone();
+                }
+            });
+
+            let breakpoint = 0;
+        }
+
+        this.cube = new BABYLON.Mesh.CreateBox("cube", 1, this.scene);
     }
 
 }
@@ -157,5 +197,9 @@ function getMapElement(x, y, z, map) {
 function getRounded(num, k) {
 
     return Math.round(num * 100000) / 100000;
+
+}
+
+function fdeName(arguments) {
 
 }

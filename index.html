@@ -3,6 +3,7 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Babylon.js sample code</title>
 	<!-- Babylon.js -->
@@ -12,8 +13,11 @@
 	<script src="http://www.babylonjs.com/babylon.js"></script>
 
 	<!-- ENUMS -->
+
 	<script src="js/Cubix.js"></script>
 	<script src="js/Cube.js"></script>
+	<script src="js/Memento.js"></script>
+	<script src="js/CubeCaretaker.js"></script>
 
 	<script src="js/Faces.js"></script>
 	<script src="js/Direction.js"></script>
@@ -27,7 +31,7 @@
 
 	<style>
 html, body {
-	overflow: hidden;
+	/*overflow: hidden;*/
 	width: 100%;
 	height: 100%;
 	margin: 0;
@@ -39,14 +43,77 @@ html, body {
 	height: 100%;
 	touch-action: none;
 }
+
+#canvasDiv {
+	width: 100%;
+	height: 100%;
+}
+
+
+#controls {
+	width : 1px;
+	background-color: green;
+	right :0;
+	height: 100%;
+}
+
+#container{
+ display: flex;
+ height: 100%;
+}
+.container > div {
+    border: 1px solid black;
+    height: 10px;
+}
+
+#buttonDiv{
+	right: -30px;
+	position: absolute;
+	width: 100px;
+	height: 30px;
+	top: 0px;
+}
+
+#can{
+
+	width: 100%;
+	height: 100%;
+}
+
 </style>
 </head>
 
 <body>
-	<canvas id="renderCanvas"></canvas>
-	<script>
-		init();
-	</script>
+
+	<div id="container">
+		<div id="can">
+			<canvas id="renderCanvas"></canvas>
+		</div>
+		<div id="buttonDiv">
+			<button onclick="toggleControls()">Controls</button>
+</div>
+<div id="controls">
+	<p>Some text </p>
+</div>
+</div>
+<script>
+	function toggleControls() {
+		var controlsDiv = document.getElementById('controls');
+		var btn = document.getElementById('buttonDiv');
+		if (controlsDiv.style.width == '300px' || controlsDiv.style.width == "") {
+			controlsDiv.style.width = '1px';
+			btn.style.right = '-30px';
+		} else {
+			btn.style.right = '200px';
+			controlsDiv.style.width = '300px';
+		}
+		var event = new Event('resize');
+
+		window.dispatchEvent(event);
+	}
+	init();
+
+</script>
 </body>
 
 </html>
