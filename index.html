@@ -89,28 +89,28 @@ html, body {
 		<div id="can">
 			<canvas id="renderCanvas"></canvas>
 		</div>
-		<div id="buttonDiv">
+		<!--<div id="buttonDiv">
 			<button onclick="toggleControls()">Controls</button>
 </div>
 <div id="controls">
 	<p>Some text </p>
-</div>
+</div>-->
 </div>
 <script>
-	function toggleControls() {
-		var controlsDiv = document.getElementById('controls');
-		var btn = document.getElementById('buttonDiv');
-		if (controlsDiv.style.width == '300px' || controlsDiv.style.width == "") {
-			controlsDiv.style.width = '1px';
-			btn.style.right = '-30px';
-		} else {
-			btn.style.right = '200px';
-			controlsDiv.style.width = '300px';
-		}
-		var event = new Event('resize');
+	// function toggleControls() {
+	// 	var controlsDiv = document.getElementById('controls');
+	// 	var btn = document.getElementById('buttonDiv');
+	// 	if (controlsDiv.style.width == '300px' || controlsDiv.style.width == "") {
+	// 		controlsDiv.style.width = '1px';
+	// 		btn.style.right = '-30px';
+	// 	} else {
+	// 		btn.style.right = '200px';
+	// 		controlsDiv.style.width = '300px';
+	// 	}
+	// 	var event = new Event('resize');
 
-		window.dispatchEvent(event);
-	}
+	// 	window.dispatchEvent(event);
+	// }
 	init();
 
 </script>
