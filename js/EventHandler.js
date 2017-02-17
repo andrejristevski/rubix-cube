@@ -1,4 +1,4 @@
-function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
+function EventHandler(canvas, window, cube, scene, camera, rotationUtils, caretaker) {
 
 	var cubeMesh = cube.getControl();
 
@@ -9,9 +9,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 	var angleSoFar = 0;
 	var presedCubix = {};
 
-	var states = [];
-	states.push(cube.saveState());
-	var statePosition = 0;
 
 	function onPointerDown(evt) {
 
@@ -102,15 +99,16 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 		//z
 		var e = window.event ? event : evt
 		if (e.keyCode == 90 && e.ctrlKey) {
-			cube.setState(states[statePosition]);
-
-			let breakpoint = 0;
+			caretaker.undo();
 		}
 		//c
 		if (e.keyCode == 67 && e.ctrlKey) {
-			states.push(cube.saveState());
-			statePosition++;
-			let breakpoint = 0;
+			caretaker.saveState();
+		}
+
+		//v
+		if (e.keyCode == 86 && e.ctrlKey) {
+			caretaker.redo();
 		}
 
 		// chrome
@@ -125,7 +123,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// 	camera.setPosition(new BABYLON.Vector3(14, 54, -82));
 			// 	break;
 			case 'l': // 'E'
-				cube.rotateLayer();
 				break;
 			// z
 			// case 90:
@@ -135,10 +132,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// case 88:
 			// 	cube.rot();
 			// 	break;
-			// v
-			case 86:
-				cube.setWM();
-				break;
 			// s
 			// case 83: // 'r'
 			// 	// cube.saveWM();
@@ -146,17 +139,13 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils) {
 			// 	break;
 			case 66: // b
 				// cubeMesh.rotation.x += Math.PI / 2;
-				cubeMesh.rotation.y += Math.PI / 2;
 				// cubeMesh.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.WORLD);
-				cube.fja();
 				break;
 			case 77: // m
 				// cubeMesh.rotation.z += Math.PI / 2;
-				cubeMesh.rotate(BABYLON.Axis.Z, Math.PI / 2, BABYLON.Space.WORLD);
 				break;
 			case 78: // n
 				// cubeMesh.rotation.y += Math.PI / 2;
-				cubeMesh.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
 				break;
 
 		}

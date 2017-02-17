@@ -19,9 +19,6 @@ var init = function () {
 			1, 0), scene);
 		// reflect the light off the ground to light the mesh bottom
 		light.groundColor = new BABYLON.Color3(.5, .5, .5);
-		// TODO
-		var cube = new CubeClass(scene, 3, 6, 0.3);
-
 
 		camera.attachControl(canvas, true);
 		var showAxis = function (size) {
@@ -47,9 +44,11 @@ var init = function () {
 		// Default intensity is 1. Let's dim the light a small amount
 		light.intensity = 0.7;
 
+		var cube = new CubeClass(scene, 3, 6, 0.3);
+		var caretaker = new CubeCaretaker(cube);
 		var rotationUtils = new RotationUtils();
 		var eventHandler = new EventHandler(canvas, window, cube, scene,
-			camera, rotationUtils);
+			camera, rotationUtils, caretaker);
 
 		return scene;
 

@@ -147,12 +147,10 @@ class CubeClass {
     }
 
     saveState() {
-        console.log('state saved');
         return new Memento(this.cubicls);
     }
 
     setState(memento) {
-        console.log('state set');
 
         let cubixInfos = memento.getState();
         let counter = 0;

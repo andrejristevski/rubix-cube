@@ -17,6 +17,7 @@
 	<script src="js/Cubix.js"></script>
 	<script src="js/Cube.js"></script>
 	<script src="js/Memento.js"></script>
+	<script src="js/CubeCaretaker.js"></script>
 
 	<script src="js/Faces.js"></script>
 	<script src="js/Direction.js"></script>
@@ -89,14 +90,14 @@ html, body {
 			<canvas id="renderCanvas"></canvas>
 		</div>
 		<div id="buttonDiv">
-			<button onclick="hide()">Controls</button>
+			<button onclick="toggleControls()">Controls</button>
 </div>
 <div id="controls">
 	<p>Some text </p>
 </div>
 </div>
 <script>
-	function hide() {
+	function toggleControls() {
 		var controlsDiv = document.getElementById('controls');
 		var btn = document.getElementById('buttonDiv');
 		if (controlsDiv.style.width == '300px' || controlsDiv.style.width == "") {
