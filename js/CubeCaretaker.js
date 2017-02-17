@@ -8,23 +8,25 @@ class CubeCaretaker {
     }
 
     saveState() {
-        console.log('state saved ' + this.stateIndex);
         this.states.push(this.cube.saveState());
         this.stateIndex++;
+        console.log('state saved ' + this.stateIndex);
     }
     undo() {
-        console.log('undo ' + this.stateIndex);
         if (this.stateIndex != 0) {
             this.stateIndex--;
             this.cube.setState(this.states[this.stateIndex]);
+        } else if (this.states.length == 1) {
+            this.cube.setState(this.stateIndex);
         }
+        console.log('undo ' + this.stateIndex);
     }
     redo() {
-        console.log('redo ' + this.stateIndex);
         if (this.stateIndex != this.states.length - 1) {
             this.stateIndex++;
             this.cube.setState(this.states[this.stateIndex]);
         }
+        console.log('redo ' + this.stateIndex);
     }
 
 }
