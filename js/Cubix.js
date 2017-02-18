@@ -1,21 +1,10 @@
-var faceColors = [];
-
-faceColors[0] = new BABYLON.Color3(1, 0, 0); // red
-faceColors[1] = new BABYLON.Color3(0, 1, 0); // green
-faceColors[2] = new BABYLON.Color3(0, 0, 1); // blue
-faceColors[3] = new BABYLON.Color3(0, 1, 1); // //svetlo sino
-faceColors[4] = new BABYLON.Color3(1, 1, 0); // yellow
-faceColors[5] = new BABYLON.Color3(1, 0, 1); // rozeva
-
-
-
 function Cubix(scene, n, partSize, parent, offset, i, j, k) {
 
     var options = {
         width: partSize,
         height: partSize,
         depth: partSize,
-        faceColors: faceColors
+        faceColors: configProvider.get('FaceColors')
     };
     var cubicl = BABYLON.MeshBuilder.CreateBox("cubcl" + i + j + k,
         options, scene);
@@ -126,7 +115,7 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         this.cubicl.position.y = newPos.y;
         this.cubicl.position.z = newPos.z;
         this.cubicl.rotate(axis, Math.PI / 2, BABYLON.Space.WORLD);
-        let breakpoint=0; 	
+        let breakpoint = 0;
 
     }
 
