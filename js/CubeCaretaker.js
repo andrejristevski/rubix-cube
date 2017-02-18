@@ -5,6 +5,7 @@ class CubeCaretaker {
         this.states = [];
         this.stateIndex = -1;
         this.saveState();
+        this.setToLastState = false;
     }
 
     saveState() {
@@ -17,7 +18,12 @@ class CubeCaretaker {
             this.stateIndex--;
             this.cube.setState(this.states[this.stateIndex]);
         } else if (this.states.length == 1) {
-            this.cube.setState(this.stateIndex);
+            this.cube.setState(this.states[this.stateIndex]);
+        }
+        if (this.setToLastState) {
+            this.stateIndex = this.states.length - 1;
+            this.cube.setState(this.states[this.stateIndex]);
+            this.setToLastState = false;
         }
         console.log('undo ' + this.stateIndex);
     }
@@ -28,5 +34,7 @@ class CubeCaretaker {
         }
         console.log('redo ' + this.stateIndex);
     }
-
+    set rotationFinished(val) {
+        this.setToLastState = val;
+    }
 }

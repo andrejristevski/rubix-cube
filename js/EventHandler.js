@@ -90,6 +90,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils, careta
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
 		cube.finishRotation(rotationAxis, remAngle, presedCubix);
+		caretaker.rotationFinished = true;
 	}
 
 	function onKeyDown(evt) {
@@ -103,6 +104,7 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils, careta
 		}
 		//c
 		if (e.keyCode == 67 && e.ctrlKey) {
+			caretaker.rotationFinished = false;
 			caretaker.saveState();
 		}
 
