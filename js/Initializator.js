@@ -59,7 +59,7 @@ var init = function () {
 		var caretaker = new CubeCaretaker(cube);
 		var rotationUtils = new RotationUtils();
 		var eventHandler = new EventHandler(canvas, window, cube, scene,
-			camera, rotationUtils, caretaker);
+			camera, rotationUtils, caretaker, configProvider);
 
 		return scene;
 

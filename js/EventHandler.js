@@ -1,4 +1,4 @@
-function EventHandler(canvas, window, cube, scene, camera, rotationUtils, caretaker) {
+function EventHandler(canvas, window, cube, scene, camera, rotationUtils, caretaker, configProvider) {
 
 	var cubeMesh = cube.getControl();
 
@@ -28,8 +28,6 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils, careta
 			presedCubix.i = mesh.ci;
 			presedCubix.j = mesh.cj;
 			presedCubix.k = mesh.ck;
-
-
 
 			setTimeout(function () {
 				camera.detachControl(canvas);
@@ -90,7 +88,13 @@ function EventHandler(canvas, window, cube, scene, camera, rotationUtils, careta
 	function finishRotation(vec) {
 		var remAngle = (Math.PI / 2) - angleSoFar;
 		cube.finishRotation(rotationAxis, remAngle, presedCubix);
-		caretaker.rotationFinished = true;
+
+		if (configProvider.get('AutomaticSavingState')) {
+			caretaker.rotationFinished = false;
+			caretaker.saveState();
+		} else {
+			caretaker.rotationFinished = true;
+		}
 	}
 
 	function onKeyDown(evt) {

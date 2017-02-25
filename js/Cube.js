@@ -199,7 +199,3 @@ function getRounded(num, k) {
     return Math.round(num * 100000) / 100000;
 
 }
-
-function fdeName(arguments) {
-
-}

@@ -26,5 +26,7 @@ var CONFIGURATION_OBJECT = {
         new BABYLON.Color3(1, 1, 0), // yellow
         new BABYLON.Color3(1, 0, 1), // rozeva
 
-    ]
+    ],
+
+    AutomaticSavingState : false
 }
