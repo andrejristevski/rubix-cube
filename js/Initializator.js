@@ -10,7 +10,7 @@ var init = function () {
 		var scene = new BABYLON.Scene(engine);
 		scene.clearColor = configProvider.get('SceneColor');
 
-		var camera = new BABYLON.ArcRotateCamera("camera", -1.40, 1, 100,
+		var camera = new BABYLON.ArcRotateCamera("camera", -1.2, 1, configProvider.get("CameraSize"),
 			BABYLON.Vector3.Zero(), scene);
 
 		var vector = configProvider.get("CameraTarget");

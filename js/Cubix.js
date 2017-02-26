@@ -23,7 +23,6 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
 
     this.cubicl = cubicl;
 
-
     Object.defineProperty(this, 'parent', {
         get: function () { return this.cubicl.parent; },
         set: function (newValue) { this.cubicl.parent = newValue; },
@@ -64,7 +63,6 @@ function Cubix(scene, n, partSize, parent, offset, i, j, k) {
         enumerable: true,
         configurable: true
     });
-
 
     Object.defineProperty(this, 'si', {
         get: function () { return this.cubicl.si; },
