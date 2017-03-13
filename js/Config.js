@@ -12,7 +12,7 @@ var CONFIGURATION_OBJECT = {
     AxisZColor: new BABYLON.Color3(0, 0, 1),
 
     //CUBE CREATION
-    NumberOfCubix: 3,
+    NumberOfCubix: 6,
     CubixSize: 6,
     CubixSpacing: 0.3,
 
@@ -28,14 +28,6 @@ var CONFIGURATION_OBJECT = {
         new BABYLON.Color3(1, 1, 1), // white
 
     ],
-
-    // new BABYLON.Color3(1, 0, 0), // red
-    // new BABYLON.Color3(0, 1, 1), // green
-    // new BABYLON.Color3(0, 0, 1), // blue
-    // new BABYLON.Color3(0, 1, 0), // //svetlo sino
-    // new BABYLON.Color3(1, 1, 0), // yellow
-    // new BABYLON.Color3(1, 0, 1), // rozeva
-
 
     AutomaticSavingState: false
 }
